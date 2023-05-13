@@ -5,6 +5,7 @@ import 'package:pet_care/const.dart';
 
 import '../models/product_model.dart';
 import '../provider/cart_provider.dart';
+import '../utils/styles.dart';
 
 class ProductItem extends StatelessWidget {
   final ProductModel product;
@@ -15,6 +16,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.3 + 55,
       width: MediaQuery.of(context).size.width * 0.5 - 30,
@@ -27,7 +29,7 @@ class ProductItem extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.3 + 10,
               width: MediaQuery.of(context).size.width * 0.5 - 50,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(15),
                   color: white,
                   boxShadow: [
                     BoxShadow(
@@ -85,29 +87,29 @@ class ProductItem extends StatelessWidget {
               ],
             ),
           ),
-          // Positioned(
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: GestureDetector(
-          //     onTap: () {
-          //       cartProvider.addCart(product, 1);
-          //     },
-          //     child: Container(
-          //         padding: const EdgeInsets.all(5),
-          //         decoration:
-          //             const BoxDecoration(color: green, shape: BoxShape.circle),
-          //         child: Center(
-          //           child: Text(
-          //             '+',
-          //             style: poppin.copyWith(
-          //                 color: white,
-          //                 fontSize: 22,
-          //                 fontWeight: FontWeight.w400),
-          //           ),
-          //         )),
-          //   ),
-          // )
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: () {
+                cartProvider.addCart(product, 1);
+              },
+              child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration:
+                      const BoxDecoration(color: Colors.cyan, shape: BoxShape.circle),
+                  child: Center(
+                    child: Text(
+                      '+',
+                      style: poppin.copyWith(
+                          color: white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  )),
+            ),
+          )
         ],
       ),
     );

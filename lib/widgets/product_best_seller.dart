@@ -6,6 +6,7 @@ import 'package:pet_care/const.dart';
 import 'package:pet_care/widgets/product.dart';
 import 'package:provider/provider.dart';
 import '../models/product_model.dart';
+import '../pages/detail.dart';
 import '../provider/cart_provider.dart';
 import '../utils/styles.dart';
 
@@ -52,10 +53,42 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
 
   @override
   Widget build(BuildContext context) {
-    // CartProvider cartProvider = Provider.of<CartProvider>(context);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     return SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Best Seller',
+                    style: poppin.copyWith(
+                        color: black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => AllProductsPage()),
+                      // );
+                      print("all");
+                    },
+                    child: Text(
+                      'See all',
+                      style: poppin.copyWith(
+                        color: Styles.highlightColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -67,11 +100,11 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                           : const EdgeInsets.only(right: 20),
                       child: GestureDetector(
                         onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => DetailPage(
-                          //             product: dataProduct[index])));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailPage(
+                                      product: dataProduct[index])));
                         },
                         child: ProductItem(
                           product: dataProduct[index],

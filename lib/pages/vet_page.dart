@@ -108,7 +108,7 @@ class _VetPageState extends State<VetPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                const Gap(100),
+                const Gap(60),
                 AnimatedContainer(
                   margin: EdgeInsets.only(bottom: headerHeight == 0 ? 0 : 16),
                   duration: const Duration(milliseconds: 200),
@@ -143,19 +143,16 @@ class _VetPageState extends State<VetPage> {
             ),
           ),
           Positioned(
-            top: 50,
+            top: 12,
             left: 15,
             right: 15,
-            child: Row(
-              children: [
-                const PetBackButton(),
-                const Gap(20),
+            child: Center(
+              child:
                 Text('Pet Veterinary',
                     style: TextStyle(
                         color: Styles.blackColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 18))
-              ],
+                        fontSize: 28))
             ),
           )
         ],

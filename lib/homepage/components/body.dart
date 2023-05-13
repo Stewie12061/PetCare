@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_care/homepage/components/fragment/home_fragment.dart';
+import 'package:pet_care/homepage/components/homeheader.dart';
 import 'package:pet_care/utils/styles.dart';
-
 import 'fragment/favorite_fragment.dart';
+import 'fragment/grooming_fragment.dart';
+import 'fragment/profile_fragment.dart';
+import 'fragment/vet_fragment.dart';
 
 
 class Body extends StatefulWidget {
@@ -22,16 +25,15 @@ class _BodyState extends State<Body> {
     List<Widget> screen = [
       const HomeDetail(),
       const FavoriteDetail(),
-      // GroomingDetail(),
-      // VetDetail()
+      const GroomingDetail(),
+      const VetDetail(),
+      const ProfileDetail()
     ];
-
-    // print(Utilities().data);
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        // title: flag ? HomeHeader() : MenuHeader(),
+        title: const HomeHeader(),
         backgroundColor: Styles.highlightColor,
       ),
       bottomNavigationBar: BottomNavigationBar(

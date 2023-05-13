@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
+import '../homepage/homepage.dart';
+
 class GetStarted extends StatelessWidget {
   const GetStarted({Key? key}) : super(key: key);
 
@@ -30,20 +32,20 @@ class GetStarted extends StatelessWidget {
               const Gap(25),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 70),
-                child: Text('Re-Home and\nAdopt a Pet',
+                child: Text('PET CARE',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Styles.blackColor,
-                      fontSize: value*26,
+                      fontSize: value*40,
                       fontWeight: FontWeight.bold,
                       height: 1,
                     ).apply(fontWeightDelta: 2)),
               ),
               const Gap(5),
               Text(
-                'Adopt me, we both need the love',
+                'Take care me, we both need the love',
                 textScaleFactor: value,
-                style: TextStyle(color: Styles.highlightColor),
+                style: TextStyle(color: Styles.highlightColor, fontWeight: FontWeight.w600,fontSize: 18),
               ),
               const Gap(30),
               Opacity(
@@ -51,7 +53,7 @@ class GetStarted extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => const Home()));
+                        context, MaterialPageRoute(builder: (_) => const HomePage()));
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,

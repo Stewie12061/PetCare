@@ -1,10 +1,20 @@
 import 'package:pet_care/homepage/homepage.dart';
 import 'package:pet_care/pages/get_started.dart';
+import 'package:pet_care/provider/cart_provider.dart';
 import 'package:pet_care/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        // add other providers here if needed
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +31,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Styles.blackColor,
           colorScheme:
               ColorScheme.fromSwatch().copyWith(primary: Styles.blackColor)),
-      home: const HomePage(),
+      home: const GetStarted(),
     );
   }
 }

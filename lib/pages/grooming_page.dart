@@ -100,8 +100,6 @@ class _GroomingPageState extends State<GroomingPage> {
                               ],
                             ),
                           ),
-                          const Positioned(
-                              left: 15, top: 50, child: PetBackButton()),
                           Positioned(
                               left: size.width * 0.3,
                               right: size.width * 0.3,
@@ -113,7 +111,7 @@ class _GroomingPageState extends State<GroomingPage> {
                                 child: ElevatedButton(
                                     onPressed: () {},
                                     style: ElevatedButton.styleFrom(
-                                      elevation: 0,
+                                      elevation: 3,
                                       fixedSize: Size(value * 150, value * 44),
                                       primary: Styles.bgWithOpacityColor,
                                       shape: const StadiumBorder(),
@@ -185,45 +183,7 @@ class _GroomingPageState extends State<GroomingPage> {
                     );
                   }),
             ),
-            TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0, end: 1),
-                curve: Curves.easeInExpo,
-                duration: const Duration(seconds: 1),
-                builder: (context, value, _) {
-                  return AnimatedScale(
-                    scale: value,
-                    curve: Curves.bounceOut,
-                    duration: const Duration(seconds: 1),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        fixedSize: const Size(215, 44),
-                        primary: Styles.bgColor,
-                        shape: const StadiumBorder(),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Gap(0),
-                          Text('Select your package',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Styles.highlightColor,
-                                  fontSize: 15)),
-                          CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Styles.bgWithOpacityColor,
-                              child: SvgPicture.asset(
-                                  'assets/svg/arrow_down2.svg',
-                                  height: 7))
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+            const Gap(20)
           ],
         ),
       ),

@@ -26,16 +26,6 @@ class _PetCardState extends State<PetCard> {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
-      child: InkWell(
-        onTap: () {
-          if (widget.petName == 'Dog Item') {
-            print("Dog");
-          } else if (widget.petName == 'Cat Item') {
-            print("Cat");
-          }
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => const GroomingPage()));
-        },
         child: TweenAnimationBuilder<double>(
             tween: Tween(begin: 0, end: 1),
             duration: const Duration(seconds: 1),
@@ -66,9 +56,15 @@ class _PetCardState extends State<PetCard> {
                       scale: value,
                         curve: Curves.bounceInOut,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (widget.petName == 'Dog Item') {
+                              print("Dog");
+                            } else if (widget.petName == 'Cat Item') {
+                              print("Cat");
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
-                            elevation: 0,
+                            elevation: 3,
                             fixedSize: const Size(90, 0),
                             primary: Styles.bgWithOpacityColor,
                             shape: const StadiumBorder(),
@@ -99,7 +95,6 @@ class _PetCardState extends State<PetCard> {
             );
           }
         ),
-      ),
     );
   }
 }
