@@ -48,11 +48,11 @@ class _DetailPageState extends State<DetailPage> {
                     child: Container(
                       height: 250,
                       width: 250,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                              color: widget.product.color!,
+                              color: Color(0xFF42A5F5),
                               offset: Offset.zero,
                               blurRadius: 100,
                               spreadRadius: 0)

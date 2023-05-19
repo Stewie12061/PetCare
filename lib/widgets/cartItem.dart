@@ -46,7 +46,7 @@ class CartItem extends StatelessWidget {
                       fontSize: 18, fontWeight: FontWeight.w600, color: black),
                 ),
                 Text(
-                  cart.product!.category!,
+                  cart.product!.categoryId.toString(),
                   style: poppin.copyWith(fontSize: 14, color: black),
                 ),
                 const SizedBox(height: 10),

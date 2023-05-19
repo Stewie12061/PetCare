@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../const.dart';
 import '../provider/cart_provider.dart';
+import '../utils/styles.dart';
 import '../widgets/cartItem.dart';
 
 class CartPage extends StatefulWidget {
@@ -194,7 +195,7 @@ class _CartPageState extends State<CartPage> {
                 Container(
                   height: 50,
                   decoration: BoxDecoration(
-                    color: green,
+                    color: Styles.highlightColor,
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Center(

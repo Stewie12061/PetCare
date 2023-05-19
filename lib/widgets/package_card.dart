@@ -35,7 +35,7 @@ class PackageCard extends StatelessWidget {
                     style: TextStyle(
                         color: Styles.blackColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16),
+                        fontSize: 14),
                   ),
                   const Gap(10),
                   Text(

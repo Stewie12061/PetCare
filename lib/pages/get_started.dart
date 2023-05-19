@@ -1,4 +1,5 @@
 import 'package:pet_care/pages/home.dart';
+import 'package:pet_care/pages/register_pages/login.dart';
 import 'package:pet_care/utils/layouts.dart';
 import 'package:pet_care/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class GetStarted extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => const HomePage()));
+                        context, MaterialPageRoute(builder: (_) => LoginPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,

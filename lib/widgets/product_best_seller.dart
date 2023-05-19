@@ -31,6 +31,7 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
         dataProduct.add(ProductModel.fromJson(element));
       }
     });
+    print(dataProduct);
   }
 
   @override

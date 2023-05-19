@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:pet_care/models/category_model.dart';
 import 'package:pet_care/models/product_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Utilities {
-  String url = "http://10.0.2.2:3000/api/";
+  String url = "http://10.0.2.2:8080/api/v1/";
   static Utilities? _instance;
   List<ProductModel> data = [];
 
@@ -29,17 +30,7 @@ class Utilities {
     }
     return [];
   }
-  Future<List<CategoryModel>> getCate() async {
-    var resCate = await http.get(Uri.parse("${url}categories"));
-    if (resCate.statusCode == 200) {
-      var content = resCate.body;
-      var arr = json.decode(content)['category'];
-      if (arr != null) {
-        return (arr as List).map((e) => CategoryModel.fromJson(e)).toList();
-      }
-    }
-    return [];
-  }
+
   Future<List<ProductModel>> getFavorites() async {
     var resFav = await http.get(Uri.parse("${url}foods/favorite"));
     if (resFav.statusCode == 200) {
@@ -52,22 +43,43 @@ class Utilities {
     return [];
   }
 
-  Future<void> addProductToFavorites(ProductModel product) async {
-    var res = await http.post(
-      Uri.parse("${url}foods/${product.id}/favorite"),
+  Future<List<CategoryModel>> getCategories() async {
+    Uri uri = Uri.parse("${url}categories/all");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    final response = await http.get(
+      uri,
+      headers: {"Authorization": "Bearer $token"},
     );
-    if (res.statusCode != 200) {
-      throw Exception('Failed to update product.');
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      print(jsonData);
+      return (jsonData as List)
+          .map((item) => CategoryModel.fromJson(item))
+          .toList();
+    } else {
+      throw Exception('Failed to fetch categories');
     }
   }
 
-  Future<void> removeProductFromFavorites(ProductModel product) async {
-    var res = await http.post(
-      Uri.parse("${url}foods/${product.id}/unfavorite"),
+  Future<List<ProductModel>> getProductsForCategory(CategoryModel category) async {
+    Uri uri = Uri.parse("${url}product/category/${category.id.toString()}");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    final response = await http.get(
+      uri,
+      headers: {"Authorization": "Bearer $token"},
     );
-    if (res.statusCode != 200) {
-      throw Exception('Failed to update product.');
+    print(response.body);
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return (jsonData as List)
+          .map((item) => ProductModel.fromJson(item))
+          .toList();
+    } else {
+      throw Exception('Failed to fetch products for category');
     }
+    return [];
   }
 
 }

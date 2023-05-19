@@ -58,10 +58,10 @@ class ProductItem extends StatelessWidget {
                           width: 100,
                           height: 100,
                           decoration:
-                              BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                              const BoxDecoration(shape: BoxShape.circle, boxShadow: [
                             BoxShadow(
                                 offset: Offset.zero,
-                                color: product.color!,
+                                color: Color(0xFF42A5F5),
                                 spreadRadius: 10,
                                 blurRadius: 20)
                           ]),
