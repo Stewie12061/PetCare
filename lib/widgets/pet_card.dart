@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
+import '../pages/all_cat_product.dart';
 import '../pages/all_dog_product.dart';
 
 class PetCard extends StatefulWidget {
@@ -60,10 +61,9 @@ class _PetCardState extends State<PetCard> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (widget.petName == 'Dog Item') {
-                              print("Dog");
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> AllDogProductPage()));
                             } else if (widget.petName == 'Cat Item') {
-                              print("Cat");
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> AllCatProductPage()));
                             }
                           },
                           style: ElevatedButton.styleFrom(

@@ -11,12 +11,12 @@ import '../homepage/components/homeheader.dart';
 import '../utils/styles.dart';
 import 'detail.dart';
 
-class AllDogProductPage extends StatefulWidget {
+class AllCatProductPage extends StatefulWidget {
   @override
   _CategoriesProductsScreenState createState() => _CategoriesProductsScreenState();
 }
 
-class _CategoriesProductsScreenState extends State<AllDogProductPage> {
+class _CategoriesProductsScreenState extends State<AllCatProductPage> {
   final Utilities utilities = Utilities();
   List<CategoryModel> categories = [];
   List<ProductModel> products = [];
@@ -41,7 +41,7 @@ class _CategoriesProductsScreenState extends State<AllDogProductPage> {
   }
 
   Future<void> fetchProductsForCategory(CategoryModel category) async {
-    final fetchedProducts = await utilities.getDogProductsForCategory(category);
+    final fetchedProducts = await utilities.getCatProductsForCategory(category);
     setState(() {
       products = fetchedProducts;
     });
@@ -104,8 +104,8 @@ class _CategoriesProductsScreenState extends State<AllDogProductPage> {
                           Text(
                             category.name,
                             style: TextStyle(
-                                color: category == selectedCategory ? Colors.white : Colors.black,
-                                fontSize: 18
+                              color: category == selectedCategory ? Colors.white : Colors.black,
+                              fontSize: 18
                             ),
                           ),
                         ],

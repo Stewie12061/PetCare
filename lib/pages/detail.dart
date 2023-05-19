@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../const.dart';
@@ -149,6 +150,13 @@ class _DetailPageState extends State<DetailPage> {
             GestureDetector(
               onTap: () {
                 cartProvider.addCart(widget.product, quantity);
+                Fluttertoast.showToast(
+                  msg: 'Add ${widget.product.name} to cart',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  backgroundColor:Styles.highlightColor,
+                  textColor: Colors.white,
+                );
               },
               child: Container(
                 padding:

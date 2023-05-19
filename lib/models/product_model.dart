@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProductModel {
-  String image, name, description;
+  String image, name, description, type;
   double price;
   int id, categoryId;
 
@@ -11,7 +11,8 @@ class ProductModel {
       required this.id,
       required this.categoryId,
       required this.name,
-      required this.description});
+      required this.description,
+      required this.type});
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
         id: json['id'],
@@ -19,7 +20,8 @@ class ProductModel {
         price: json['price'].toDouble(),
         description: json['description'],
         image: json['image'],
-        categoryId: json['category'].toInt()
+        categoryId: json['category_id'].toInt(),
+        type: json['type']
     );
   }
 
@@ -31,6 +33,7 @@ class ProductModel {
       'description': description,
       'image': image,
       'category': categoryId,
+      'type': type,
     };
   }
 

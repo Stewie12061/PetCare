@@ -57,14 +57,15 @@ class HomeHeader extends StatelessWidget {
               children: [
                 const Positioned(
                   bottom: 0,
-                  child: Icon(
-                    Icons.shopping_cart,
+                  child: ImageIcon(
+                    AssetImage('assets/nav_icons/cart.png'),
+                    size: 30,
                     color: black,
                   ),
                 ),
                 cartProvider.carts.isNotEmpty
                     ? Positioned(
-                  top: 0,
+                  top: -8,
                   right: 0,
                   child: Container(
                       padding: const EdgeInsets.all(5),

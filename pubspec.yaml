@@ -45,6 +45,8 @@ dependencies:
   http: ^0.13.5
   hexcolor: ^3.0.1
   email_validator: ^2.1.17
+  font_awesome_flutter: ^10.4.0
+  icon_badge: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,7 @@ flutter:
     - assets/json/
     - assets/foods/
     - assets/images/
+    - assets/category/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -53,7 +53,6 @@ class Utilities {
     );
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
-      print(jsonData);
       return (jsonData as List)
           .map((item) => CategoryModel.fromJson(item))
           .toList();
@@ -62,9 +61,27 @@ class Utilities {
     }
   }
 
-  Future<List<ProductModel>> getProductsForCategory(CategoryModel category) async {
-    Uri uri = Uri.parse("${url}product/category/${category.id.toString()}");
+  Future<List<ProductModel>> getDogProductsForCategory(CategoryModel category) async {
+    Uri uri = Uri.parse("${url}product/dog/category/${category.id.toString()}");
         SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    final response = await http.get(
+      uri,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return (jsonData as List)
+          .map((item) => ProductModel.fromJson(item))
+          .toList();
+    } else {
+      throw Exception('Failed to fetch products for category');
+    }
+    return [];
+  }
+  Future<List<ProductModel>> getCatProductsForCategory(CategoryModel category) async {
+    Uri uri = Uri.parse("${url}product/cat/category/${category.id.toString()}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("jwtToken")!;
     final response = await http.get(
       uri,

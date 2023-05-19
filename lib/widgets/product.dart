@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:provider/provider.dart';
 import 'package:pet_care/const.dart';
@@ -94,6 +95,13 @@ class ProductItem extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 cartProvider.addCart(product, 1);
+                Fluttertoast.showToast(
+                  msg: 'Add ${product.name} to cart',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Styles.highlightColor,
+                  textColor: Colors.white,
+                );
               },
               child: Container(
                   padding: const EdgeInsets.all(5),
