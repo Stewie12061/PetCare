@@ -68,8 +68,9 @@ class ProductItem extends StatelessWidget {
                           ]),
                         ),
                       ),
+
                       Image.asset(
-                        'assets/foods/${product.image}',
+                        'assets/products/${product.image}',
                         height: 180,
                       ),
                     ],

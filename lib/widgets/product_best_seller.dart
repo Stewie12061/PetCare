@@ -6,6 +6,7 @@ import 'package:pet_care/const.dart';
 import 'package:pet_care/widgets/product.dart';
 import 'package:provider/provider.dart';
 import '../models/product_model.dart';
+import '../pages/all_product_page.dart';
 import '../pages/detail.dart';
 import '../provider/cart_provider.dart';
 import '../utils/styles.dart';
@@ -31,7 +32,6 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
         dataProduct.add(ProductModel.fromJson(element));
       }
     });
-    print(dataProduct);
   }
 
   @override
@@ -72,11 +72,10 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                   ),
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => AllProductsPage()),
-                      // );
-                      print("all");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AllProductsPage()),
+                      );
                     },
                     child: Text(
                       'See all',
@@ -154,7 +153,7 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                     child: Transform.rotate(
                       angle: -0.15,
                       child: Image.asset(
-                        'assets/foods/meow-mix1.png',
+                        'assets/products/meow-mix1.png',
                         height: 120,
                       ),
                     ),
@@ -165,7 +164,7 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                     child: Transform.rotate(
                       angle: 0.3,
                       child: Image.asset(
-                        'assets/foods/authority1.png',
+                        'assets/products/authority1.png',
                         height: 120,
                       ),
                     ),
@@ -176,7 +175,7 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                     child: Transform.rotate(
                       angle: 0,
                       child: Image.asset(
-                        'assets/foods/royal-canin1.png',
+                        'assets/products/royal-canin1.png',
                         height: 120,
                       ),
                     ),

@@ -61,7 +61,7 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                   ),
-                  Image.asset('assets/foods/${widget.product.image}'),
+                  Image.asset('assets/products/${widget.product.image}'),
                 ],
               )),
           Padding(

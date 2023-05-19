@@ -8,6 +8,7 @@ import 'package:pet_care/service/Utilities.dart';
 import 'package:pet_care/widgets/product.dart';
 
 import '../homepage/components/homeheader.dart';
+import '../homepage/components/productheader.dart';
 import '../utils/styles.dart';
 import 'detail.dart';
 
@@ -58,7 +59,7 @@ class _CategoriesProductsScreenState extends State<AllDogProductPage> {
             Navigator.pop(context);
           },
         ),
-        title: const HomeHeader(),
+        title: const ProductHeader(),
         backgroundColor: Styles.highlightColor,
       ),
       body: Column(

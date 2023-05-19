@@ -1,15 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_badge/icon_badge.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _DailyPageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _DailyPageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
+  String username='';
+  String email='';
+
+  @override
+  void initState() {
+    super.initState();
+    loadDataFromSharedPreferences();
+  }
+  Future<void> loadDataFromSharedPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username') ?? '';
+      email = prefs.getString('email') ?? '';
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -19,160 +37,129 @@ class _DailyPageState extends State<ProfilePage> {
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.03),
-                        spreadRadius: 10,
-                        blurRadius: 3,
-                        // changes position of shadow
-                      ),
-                    ]),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 20, bottom: 25, right: 20, left: 20),
-                  child: Column(
-                    children: [
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Icon(Icons.bar_chart), Icon(Icons.more_vert)],
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            width: 120,
-                            height: 100,
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        "https://www.looper.com/img/gallery/the-stewie-griffin-theory-that-changes-everything-about-family-guy/l-intro-1625887696.jpg"),
-                                    fit: BoxFit.fill)),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            width: (size.width - 40) * 0.6,
-                            child: Column(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 20, bottom: 25, right: 20, left: 20),
+                    child: Column(
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [Icon(Icons.bar_chart), Icon(Icons.more_vert)],
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              height: 100,
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          "https://www.looper.com/img/gallery/the-stewie-griffin-theory-that-changes-everything-about-family-guy/l-intro-1625887696.jpg"),
+                                      fit: BoxFit.fill)),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: (size.width - 40) * 0.6,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    username,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    email,
+                                    style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Column(
                               children: [
                                 Text(
-                                  "Stewie Griffin",
+                                  "\$8900",
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
                                       color: Colors.black),
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                SizedBox(
+                                  height: 5,
                                 ),
                                 Text(
-                                  "stewie@gmail.com",
+                                  "Total spend",
                                   style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w100,
                                       color: Colors.black),
                                 ),
                               ],
                             ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "\$8900",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Income",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w100,
-                                    color: Colors.black),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 0.5,
-                            height: 40,
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "\$5500",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Expenses",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w100,
-                                    color: Colors.black),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 0.5,
-                            height: 40,
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "\$890",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Loan",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w100,
-                                    color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
+                            Container(
+                              width: 0.5,
+                              height: 40,
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                            const Column(
+                              children: [
+                                Text(
+                                  "20",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Total order",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w100,
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25),
+              const Padding(
+                padding: EdgeInsets.only(left: 25, right: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -186,17 +173,6 @@ class _DailyPageState extends State<ProfilePage> {
                                   fontSize: 20,
                                   color: Colors.black,
                                 )),
-                            IconBadge(
-                              icon: const Icon(Icons.notifications_none),
-                              itemCount: 1,
-                              badgeColor: Colors.red,
-                              itemColor: Colors.black,
-                              hideZero: true,
-                              top: -1,
-                              onTap: () {
-                                print('test');
-                              },
-                            ),
                           ],
                         )
                       ],
@@ -207,7 +183,7 @@ class _DailyPageState extends State<ProfilePage> {
                     //       fontSize: 20,
                     //       color: mainFontColor,
                     //     )),
-                    Text("Jan 16, 2023",
+                    Text("Your booking appointment",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 13,
@@ -270,7 +246,7 @@ class _DailyPageState extends State<ProfilePage> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Sent",
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -292,7 +268,7 @@ class _DailyPageState extends State<ProfilePage> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      child: Row(
+                                      child: const Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
@@ -363,7 +339,7 @@ class _DailyPageState extends State<ProfilePage> {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Receive",
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -385,7 +361,7 @@ class _DailyPageState extends State<ProfilePage> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      child: Row(
+                                      child: const Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
@@ -455,7 +431,7 @@ class _DailyPageState extends State<ProfilePage> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Loan",
                                               style: TextStyle(
                                                   fontSize: 15,
@@ -477,7 +453,7 @@ class _DailyPageState extends State<ProfilePage> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      child: Row(
+                                      child: const Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(

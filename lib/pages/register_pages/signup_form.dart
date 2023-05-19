@@ -215,19 +215,19 @@ class _SignUpFormState extends State<SignUpForm> {
       'Content-Type': 'application/json',
     };
     var response = await http.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body
+        Uri.parse(url),
+        headers: headers,
+        body: body
     );
 
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
-              msg: 'Account created successfully!',
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Styles.highlightColor,
-              textColor: Colors.white,
-            );
+        msg: 'Account created successfully!',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Styles.highlightColor,
+        textColor: Colors.white,
+      );
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => LoginPage()));
     }else if (response.statusCode==400){

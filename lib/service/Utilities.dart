@@ -60,7 +60,24 @@ class Utilities {
       throw Exception('Failed to fetch categories');
     }
   }
-
+  Future<List<ProductModel>> getAllProductsForCategory(CategoryModel category) async {
+    Uri uri = Uri.parse("${url}product/category/${category.id.toString()}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    final response = await http.get(
+      uri,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return (jsonData as List)
+          .map((item) => ProductModel.fromJson(item))
+          .toList();
+    } else {
+      throw Exception('Failed to fetch products for category');
+    }
+    return [];
+  }
   Future<List<ProductModel>> getDogProductsForCategory(CategoryModel category) async {
     Uri uri = Uri.parse("${url}product/dog/category/${category.id.toString()}");
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -87,7 +104,6 @@ class Utilities {
       uri,
       headers: {"Authorization": "Bearer $token"},
     );
-    print(response.body);
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       return (jsonData as List)
@@ -97,6 +113,29 @@ class Utilities {
       throw Exception('Failed to fetch products for category');
     }
     return [];
+  }
+
+  Future<List<ProductModel>> searchProducts(String query) async {
+    String url = 'http://10.0.2.2:8080/api/v1/product/';
+    Uri uri = Uri.parse("${url}search?query=$query");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    // Make API request to the backend and retrieve search results
+    final response = await http.get(
+      uri,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return (jsonData as List)
+          .map((item) => ProductModel.fromJson(item))
+          .toList();
+    } else {
+      throw Exception('Failed to fetch products for category');
+    }
+
   }
 
 }

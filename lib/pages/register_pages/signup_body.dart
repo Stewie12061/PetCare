@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pet_care/pages/register_pages/signup_form.dart';
 
 import '../../utils/styles.dart';
+import 'flow_controller.dart';
 
 class SignUpBodyScreen extends StatefulWidget {
   const SignUpBodyScreen({super.key});
@@ -12,6 +14,14 @@ class SignUpBodyScreen extends StatefulWidget {
 }
 
 class _SignUpBodyScreenState extends State<SignUpBodyScreen> {
+  FlowController flowController = Get.put(FlowController());
+  late int _currentFlow;
+  @override
+  void initState() {
+    _currentFlow = FlowController().currentFlow;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,7 +42,7 @@ class _SignUpBodyScreenState extends State<SignUpBodyScreen> {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: const SignUpForm(),
+              child: const SignUpForm()
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,

@@ -33,7 +33,7 @@ class CartItem extends StatelessWidget {
               color: grey.withOpacity(0.4),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Image.asset('assets/foods/${cart.product!.image!}'),
+            child: Image.asset('assets/products/${cart.product!.image!}'),
           ),
           const SizedBox(width: 20),
           Expanded(
