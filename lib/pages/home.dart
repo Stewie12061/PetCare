@@ -19,24 +19,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15),
+    return const Padding(
+      padding: EdgeInsets.all(15),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0, end: 1),
-              duration: const Duration(seconds: 1),
-              builder: (context, value, _) {
-                return AnimatedOpacity(
-                    duration: const Duration(seconds: 1),
-                    opacity: value,
-                    child: Text("Pet Care", style: poppin.copyWith( fontSize: 70, color: Styles.highlightColor, fontWeight: FontWeight.w900)));
-              }),
-          const Gap(20),
-          const AnimatedTitle(title: 'What are you looking for?'),
-          const Gap(10),
-          const Row(
+          Gap(20),
+          AnimatedTitle(title: 'What are you looking for?'),
+          Gap(10),
+          Row(
             children: [
               PetCard(petPath: 'assets/svg/cat1.svg', petName: 'Cat Item'),
               Gap(28),
@@ -47,12 +38,12 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          const Gap(25),
-          const ProductBestSellerSection(),
-          const Gap(25),
-          const AnimatedTitle(title: 'Stories'),
-          const Gap(10),
-          const StoriesSection(),
+          Gap(25),
+          ProductBestSellerSection(),
+          Gap(25),
+          AnimatedTitle(title: 'Stories'),
+          Gap(10),
+          StoriesSection(),
         ],
       ),
     );

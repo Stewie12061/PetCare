@@ -6,18 +6,23 @@ import 'package:pet_care/const.dart';
 
 import '../models/product_model.dart';
 import '../provider/cart_provider.dart';
+import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
 
 class ProductItem extends StatelessWidget {
   final ProductModel product;
+  final bool isFavorite;
+
   const ProductItem({
     Key? key,
-    required this.product,
+    required this.product, required this.isFavorite,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
+
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.3 + 55,
       width: MediaQuery.of(context).size.width * 0.5 - 30,
@@ -117,6 +122,30 @@ class ProductItem extends StatelessWidget {
                           fontWeight: FontWeight.w400),
                     ),
                   )),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 110,
+            right: 0,
+            child: GestureDetector(
+              onTap: () {
+                if (isFavorite) {
+                  favoriteProvider.removeFromFavorites(product);
+                } else {
+                  favoriteProvider.addToFavorites(product);
+                }
+              },
+              child: Container(
+                  padding: const EdgeInsets.all(5),
+                  child: Center(
+                    child: Icon(
+                      isFavorite ? Icons.favorite: Icons.favorite_border ,
+                      color: Colors.red,
+                      size: 50,
+                    ),
+                  ),
+              )
             ),
           )
         ],

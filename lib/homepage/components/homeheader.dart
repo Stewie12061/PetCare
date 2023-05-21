@@ -14,6 +14,7 @@ import '../../const.dart';
 import '../../pages/cart.dart';
 import '../../pages/detail.dart';
 import '../../provider/cart_provider.dart';
+import '../../provider/favorite_provider.dart';
 import '../../utils/styles.dart';
 import '../../widgets/product.dart';
 
@@ -30,23 +31,35 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Row(
       children: [
-        Expanded(
-          child: SizedBox(
-            height: 45,
-            child: Center(
+        SizedBox(
+          width: 50,
+          child: Stack(
+              children: [
+              Positioned(
               child: IconButton(
-                icon: const Icon(Icons.search),
+                icon: const Icon(Icons.search,size: 30,color: Colors.black,),
                 onPressed: (){
                   showSearch(context: context, delegate: MySearchDelegate());
                 },
               ),
             ),
+            ]
           ),
         ),
-        const Gap(10),
+        const Gap(20),
+        TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0, end: 1),
+            duration: const Duration(seconds: 1),
+            builder: (context, value, _) {
+              return AnimatedOpacity(
+                  duration: const Duration(seconds: 1),
+                  opacity: value,
+                  child: Text("Pet Care", style: poppin.copyWith( fontSize: 50, color: Styles.blackColor, fontWeight: FontWeight.w900)));
+            }),
+        const Gap(20),
         GestureDetector(
           onTap: () {
             Navigator.push(
@@ -123,6 +136,7 @@ class MySearchDelegate extends SearchDelegate{
 
   @override
   Widget buildResults(BuildContext context) {
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
     return FutureBuilder<List<ProductModel>>(
       future: utilities.searchProducts(query),
       builder: (context, snapshot) {
@@ -157,6 +171,7 @@ class MySearchDelegate extends SearchDelegate{
                     },
                     child: ProductItem(
                       product: product,
+                      isFavorite: favoriteProvider.isProductFavorite(searchResults[index].id),
                     ),
                   ),
                 );
@@ -176,8 +191,55 @@ class MySearchDelegate extends SearchDelegate{
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return const Center(
-      child: Text('Search product'),
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
+    return FutureBuilder<List<ProductModel>>(
+      future: utilities.searchProducts(query),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Text('Error occurred while searching.'),
+          );
+        } else {
+          final searchResults = snapshot.data;
+          if (searchResults != null && searchResults.isNotEmpty) {
+            // Display the search results
+            return GridView.count(
+              crossAxisCount: 2, // Number of columns
+              padding: const EdgeInsets.all(8), // Add padding around each item
+              childAspectRatio: 0.6, // Adjust aspect ratio for item size
+              children: List.generate(searchResults.length, (index) {
+                final product = searchResults[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8), // Add spacing between items
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailPage(product: searchResults[index]),
+                        ),
+                      );
+                    },
+                    child: ProductItem(
+                      product: product,
+                      isFavorite: favoriteProvider.isProductFavorite(searchResults[index].id),
+                    ),
+                  ),
+                );
+              }),
+            );
+          } else {
+            // Display a message when no search results are found
+            return const Center(
+              child: Text('No search results found.'),
+            );
+          }
+        }
+      },
     );
   }
 }

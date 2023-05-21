@@ -13,19 +13,19 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  addCart(ProductModel product, int qunatity) {
+  addCart(ProductModel product, int quantity) {
     if (productExist(product)) {
       int index =
           _carts.indexWhere((element) => element.product!.id == product.id);
-      _carts[index].quantity = _carts[index].quantity! + qunatity;
+      _carts[index].quantity = _carts[index].quantity! + quantity;
     } else {
       _carts.add(
-          CartModel(id: _carts.length, product: product, quantity: qunatity));
+          CartModel(id: _carts.length, product: product, quantity: quantity));
     }
     notifyListeners();
   }
 
-  remoceCart(int id) {
+  removeCart(int id) {
     _carts.removeWhere((element) => element.id == id);
     notifyListeners();
   }

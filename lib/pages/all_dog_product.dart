@@ -6,9 +6,11 @@ import 'package:pet_care/models/category_model.dart';
 import 'package:pet_care/models/product_model.dart';
 import 'package:pet_care/service/Utilities.dart';
 import 'package:pet_care/widgets/product.dart';
+import 'package:provider/provider.dart';
 
 import '../homepage/components/homeheader.dart';
 import '../homepage/components/productheader.dart';
+import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
 import 'detail.dart';
 
@@ -50,6 +52,7 @@ class _CategoriesProductsScreenState extends State<AllDogProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -138,6 +141,7 @@ class _CategoriesProductsScreenState extends State<AllDogProductPage> {
                     },
                     child: ProductItem(
                       product: product,
+                      isFavorite: favoriteProvider.isProductFavorite(products[index].id),
                     ),
                   ),
                 );

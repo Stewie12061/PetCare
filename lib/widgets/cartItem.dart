@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../const.dart';
 import '../models/cart_model.dart';
+import 'package:http/http.dart' as http;
 
 class CartItem extends StatelessWidget {
   final CartModel cart;
@@ -45,9 +47,21 @@ class CartItem extends StatelessWidget {
                   style: poppin.copyWith(
                       fontSize: 18, fontWeight: FontWeight.w600, color: black),
                 ),
-                Text(
-                  cart.product!.categoryId.toString(),
-                  style: poppin.copyWith(fontSize: 14, color: black),
+                FutureBuilder<String>(
+                  future: fetchCategoryName(cart.product!.categoryId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      final categoryName = snapshot.data;
+                      return Text(
+                        categoryName!,
+                        style: poppin.copyWith(fontSize: 14, color: black),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -66,5 +80,20 @@ class CartItem extends StatelessWidget {
         ],
       ),
     );
+  }
+  Future<String> fetchCategoryName(int id) async {
+    final url = 'http://10.0.2.2:8080/api/v1/categories/categoryName/$id';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {"Authorization": "Bearer $token"},
+    );
+    if (response.statusCode == 200) {
+      final categoryName = response.body;
+      return categoryName;
+    } else {
+      throw Exception('category');
+    }
   }
 }

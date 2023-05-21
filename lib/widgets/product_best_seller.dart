@@ -9,6 +9,7 @@ import '../models/product_model.dart';
 import '../pages/all_product_page.dart';
 import '../pages/detail.dart';
 import '../provider/cart_provider.dart';
+import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
 
 class ProductBestSellerSection extends StatefulWidget {
@@ -55,6 +56,7 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
     return SingleChildScrollView(
         child: Column(
           children: [
@@ -108,6 +110,7 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                         },
                         child: ProductItem(
                           product: dataProduct[index],
+                          isFavorite: favoriteProvider.isProductFavorite(dataProduct[index].id),
                         ),
                       ),
                     )),

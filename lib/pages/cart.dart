@@ -82,7 +82,7 @@ class _CartPageState extends State<CartPage> {
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) {
-                                          cartProvider.remoceCart(
+                                          cartProvider.removeCart(
                                               cartProvider.carts[index].id!);
                                         },
                                         icon: Icons.delete_outline_rounded,
