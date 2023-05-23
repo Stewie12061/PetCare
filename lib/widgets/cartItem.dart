@@ -51,9 +51,9 @@ class CartItem extends StatelessWidget {
                   future: fetchCategoryName(cart.product!.categoryId),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const Text('Loading...');
                     } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                      return const Text("category");
                     } else {
                       final categoryName = snapshot.data;
                       return Text(

@@ -28,84 +28,92 @@ class HomeHeader extends StatefulWidget {
 class _HomeHeaderState extends State<HomeHeader> {
   TextEditingController searchController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<CartProvider>(context, listen: false).initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
-    return Row(
-      children: [
-        SizedBox(
-          width: 50,
-          child: Stack(
-              children: [
-              Positioned(
-              child: IconButton(
-                icon: const Icon(Icons.search,size: 30,color: Colors.black,),
-                onPressed: (){
-                  showSearch(context: context, delegate: MySearchDelegate());
-                },
-              ),
-            ),
-            ]
-          ),
-        ),
-        const Gap(20),
-        TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0, end: 1),
-            duration: const Duration(seconds: 1),
-            builder: (context, value, _) {
-              return AnimatedOpacity(
-                  duration: const Duration(seconds: 1),
-                  opacity: value,
-                  child: Text("Pet Care", style: poppin.copyWith( fontSize: 50, color: Styles.blackColor, fontWeight: FontWeight.w900)));
-            }),
-        const Gap(20),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CartPage()),
-            );
-          },
-          child: SizedBox(
-            height: 30,
-            width: 35,
-            child: Stack(
-              children: [
-                const Positioned(
-                  bottom: 0,
-                  child: ImageIcon(
-                    AssetImage('assets/nav_icons/cart.png'),
-                    size: 30,
-                    color: black,
+    return Consumer<CartProvider>(
+      builder: (context, cartProvider, _) {
+        return Row(
+          children: [
+            SizedBox(
+              width: 50,
+              child: Stack(
+                  children: [
+                  Positioned(
+                  child: IconButton(
+                    icon: const Icon(Icons.search,size: 30,color: Colors.black,),
+                    onPressed: (){
+                      showSearch(context: context, delegate: MySearchDelegate());
+                    },
                   ),
                 ),
-                cartProvider.carts.isNotEmpty
-                    ? Positioned(
-                  top: -8,
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: Text(
-                      '${cartProvider.carts.length}',
-                      style: poppin.copyWith(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                ]
+              ),
+            ),
+            const Gap(20),
+            TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: 1),
+                duration: const Duration(seconds: 1),
+                builder: (context, value, _) {
+                  return AnimatedOpacity(
+                      duration: const Duration(seconds: 1),
+                      opacity: value,
+                      child: Text("Pet Care", style: poppin.copyWith( fontSize: 50, color: Styles.blackColor, fontWeight: FontWeight.w900)));
+                }),
+            const Gap(20),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CartPage()),
+                );
+              },
+              child: SizedBox(
+                height: 30,
+                width: 35,
+                child: Stack(
+                  children: [
+                    const Positioned(
+                      bottom: 0,
+                      child: ImageIcon(
+                        AssetImage('assets/nav_icons/cart.png'),
+                        size: 30,
+                        color: black,
                       ),
                     ),
-                  ),
-                )
-                    : Container()
-              ],
+                    cartProvider.carts.isNotEmpty
+                        ? Positioned(
+                      top: -8,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: Text(
+                          '${cartProvider.carts.length}',
+                          style: poppin.copyWith(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
+                        : Container()
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      }
     );
   }
 }

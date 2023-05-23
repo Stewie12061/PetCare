@@ -15,7 +15,9 @@ class _FavoriteState extends State<Favorite> {
   @override
   void initState() {
     super.initState();
-    fetchFavoriteProducts();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      fetchFavoriteProducts();
+    });
   }
 
   Future<void> fetchFavoriteProducts() async {

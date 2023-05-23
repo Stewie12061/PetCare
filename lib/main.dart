@@ -10,7 +10,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => FavoriteProvider()),
       ],
       child: const MyApp(),
@@ -20,15 +20,9 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // Obtain the instance of FavoriteProvider
-    final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false);
-    // Initialize the provider
-    favoriteProvider.initialize();
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AdoptMe',
