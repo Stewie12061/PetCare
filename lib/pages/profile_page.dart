@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -152,12 +153,36 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
-                        // ElevatedButton(
-                        //     onPressed: (){
-                        //
-                        //     },
-                        //     child: child
-                        // )
+                    const Gap(20),
+                    ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Sign Out'),
+                              content: Text('Are you sure you want to sign out?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Sign Out'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacementNamed(context, '/signin');
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Text('Sign Out'),
+                    )
                       ],
                     ),
                   ),

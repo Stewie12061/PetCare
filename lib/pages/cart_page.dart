@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pet_care/pages/checkou_page.dart';
 import 'package:provider/provider.dart';
 import '../const.dart';
 import '../provider/cart_provider.dart';
@@ -38,8 +39,8 @@ class _CartState extends State<CartPage> {
         return Scaffold(
           backgroundColor: white,
           appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
+            elevation: 3,
+            backgroundColor: Styles.highlightColor,
             leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
@@ -83,39 +84,42 @@ class _CartState extends State<CartPage> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: List.generate(
-                      cartProvider.carts.length,
-                          (index) => Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Container(
-                          height: 105,
-                          decoration: BoxDecoration(
-                            color: grey.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Slidable(
-                            endActionPane: ActionPane(
-                              extentRatio: 0.15,
-                              motion: const BehindMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    cartProvider.removeCart(
-                                        cartProvider.carts[index].id!);
-                                  },
-                                  icon: Icons.delete_outline_rounded,
-                                  foregroundColor: Colors.red,
-                                  autoClose: true,
-                                  backgroundColor: grey.withOpacity(0.1),
-                                  borderRadius: const BorderRadius.horizontal(
-                                    right: Radius.circular(20),
-                                  ),
-                                )
-                              ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15,bottom: 15),
+                    child: Column(
+                      children: List.generate(
+                        cartProvider.carts.length,
+                            (index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 25),
+                          child: Container(
+                            height: 105,
+                            decoration: BoxDecoration(
+                              color: grey.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            child: CartItem(
-                              cart: cartProvider.carts[index],
+                            child: Slidable(
+                              endActionPane: ActionPane(
+                                extentRatio: 0.15,
+                                motion: const BehindMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      cartProvider.removeCart(
+                                          cartProvider.carts[index].id!);
+                                    },
+                                    icon: Icons.delete_outline_rounded,
+                                    foregroundColor: Colors.red,
+                                    autoClose: true,
+                                    backgroundColor: grey.withOpacity(0.1),
+                                    borderRadius: const BorderRadius.horizontal(
+                                      right: Radius.circular(20),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              child: CartItem(
+                                cart: cartProvider.carts[index],
+                              ),
                             ),
                           ),
                         ),
@@ -286,19 +290,25 @@ class _CartState extends State<CartPage> {
                       ],
                     ),
                     const SizedBox(height: 30),
-                    Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Styles.highlightColor,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Check out',
-                          style: poppin.copyWith(
-                            fontSize: 16,
-                            color: white,
-                            fontWeight: FontWeight.w600,
+                    InkWell(
+                      onTap: (){
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => CheckOutPage()));
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Styles.highlightColor,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Check out',
+                            style: poppin.copyWith(
+                              fontSize: 16,
+                              color: white,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

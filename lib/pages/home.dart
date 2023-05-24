@@ -1,4 +1,4 @@
-import 'package:pet_care/pages/carousel.dart';
+import 'package:pet_care/widgets/carousel.dart';
 import 'package:pet_care/provider/favorite_provider.dart';
 import 'package:pet_care/widgets/animated_title.dart';
 import 'package:pet_care/widgets/pet_card.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care/homepage/homepage.dart';
 import 'package:pet_care/pages/get_started.dart';
+import 'package:pet_care/pages/register_pages/login.dart';
 import 'package:pet_care/provider/cart_provider.dart';
 import 'package:pet_care/provider/favorite_provider.dart';
 import 'package:pet_care/utils/styles.dart';
@@ -30,6 +32,10 @@ class MyApp extends StatelessWidget {
         primaryColor: Styles.blackColor,
         colorScheme: ColorScheme.fromSwatch().copyWith(primary: Styles.blackColor),
       ),
+      routes: {
+        '/signin': (context) => const LoginPage(),
+        '/home': (context) => const HomePage(),
+      },
       home: const GetStarted(),
     );
   }

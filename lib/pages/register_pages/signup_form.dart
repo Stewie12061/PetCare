@@ -18,7 +18,10 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final emailController = TextEditingController();
   final nameController = TextEditingController();
-  final passwordContoller = TextEditingController();
+  final passwordController = TextEditingController();
+  final fullnameController = TextEditingController();
+  final phonenumerController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -152,7 +155,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     height: 8,
                   ),
                   TextFormField(
-                    controller: passwordContoller,
+                    controller: passwordController,
                     validator: (passwordKey) {
                       if (passwordKey!.isEmpty) {
                         return 'Please enter password';
@@ -182,6 +185,88 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                   const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Full name",
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      color: HexColor("#8d8d8d"),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    controller: fullnameController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                    cursorColor: HexColor("#4f4f4f"),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.account_circle_outlined),
+                      hintText: "Enter your full name",
+                      fillColor: HexColor("#f0f3f1"),
+                      contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: HexColor("#8d8d8d"),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                    ),
+                    onSaved: (value) {
+                      setState(() => fullnameController.text = value!);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Phone number",
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      color: HexColor("#8d8d8d"),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    controller: phonenumerController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter phone number';
+                      }
+                      return null;
+                    },
+                    cursorColor: HexColor("#4f4f4f"),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.account_circle_outlined),
+                      hintText: "Enter your phone number",
+                      fillColor: HexColor("#f0f3f1"),
+                      contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: HexColor("#8d8d8d"),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                    ),
+                    onSaved: (value) {
+                      setState(() => phonenumerController.text = value!);
+                    },
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                   MyButton(
@@ -204,12 +289,16 @@ class _SignUpFormState extends State<SignUpForm> {
   Future<void> signUpUser() async{
     String email = emailController.text;
     String username = nameController.text;
-    String password = passwordContoller.text;
+    String password = passwordController.text;
+    String phoneNumber = phonenumerController.text;
+    String fullname = fullnameController.text;
     const url = 'http://10.0.2.2:8080/api/v1/auth/signup';
     String body = jsonEncode({
       "userName": username,
       "password": password,
-      "email" : email
+      "email" : email,
+      "fullname":fullname,
+      "phonenumber":phoneNumber
     });
     Map<String, String> headers = {
       'Content-Type': 'application/json',

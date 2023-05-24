@@ -45,14 +45,18 @@ class _LoginFormState extends State<LoginForm> {
       final jwtToken = responseData['accessToken'];
       final email = responseData['email'];
       final username = responseData['username'];
+      final fullname = responseData['fullname'];
+      final phonenumber = responseData['phonenumber'];
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('userId', userId.toString());
       await prefs.setString('jwtToken', jwtToken.toString());
       await prefs.setString('email', email.toString());
       await prefs.setString('username', username.toString());
+      await prefs.setString('fullname', fullname.toString());
+      await prefs.setString('phonenumber', phonenumber.toString());
 
-      print(jwtToken);
+      print(responseData);
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const HomePage()));
     } else {

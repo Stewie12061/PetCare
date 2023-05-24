@@ -7,7 +7,7 @@ import 'package:pet_care/widgets/product.dart';
 import 'package:provider/provider.dart';
 import '../models/product_model.dart';
 import '../pages/all_product_page.dart';
-import '../pages/detail.dart';
+import 'detail.dart';
 import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
 

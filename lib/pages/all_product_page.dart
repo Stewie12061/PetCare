@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../homepage/components/productheader.dart';
 import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
-import 'detail.dart';
+import '../widgets/detail.dart';
 
 class AllProductsPage extends StatefulWidget {
   const AllProductsPage({super.key});

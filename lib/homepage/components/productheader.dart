@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import '../../const.dart';
-import '../../pages/cart.dart';
+import '../../pages/cart_page.dart';
 import '../../provider/cart_provider.dart';
 
 class ProductHeader extends StatelessWidget {
