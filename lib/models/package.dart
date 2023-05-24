@@ -7,27 +7,23 @@ String packageToJson(List<Package> data) => json.encode(List<dynamic>.from(data.
 class Package {
   Package({
     required this.name,
-    required this.services,
-    required this.bonus,
+    required this.service,
     required this.price,
   });
 
   final String name;
-  final int services;
-  final int bonus;
-  final int price;
+  final int service;
+  final double price;
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
     name: json["name"],
-    services: json["services"],
-    bonus: json["bonus"],
-    price: json["price"],
+    service: json["service"] != null ? int.parse(json["service"].toString()) : 0,
+    price: json["price"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "services": services,
-    "bonus": bonus,
+    "service": service,
     "price": price,
   };
 }

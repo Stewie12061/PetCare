@@ -48,7 +48,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Icon(Icons.bar_chart), Icon(Icons.more_vert)],
+                          children: [
+                            Icon(Icons.bar_chart),
+                            Icon(Icons.more_vert)
+                          ],
                         ),
                         const SizedBox(
                           height: 15,
@@ -148,7 +151,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ],
-                        )
+                        ),
+                        // ElevatedButton(
+                        //     onPressed: (){
+                        //
+                        //     },
+                        //     child: child
+                        // )
                       ],
                     ),
                   ),

@@ -12,8 +12,7 @@ class PackageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const VetPage()));
+
       },
       child: Container(
           width: double.infinity,
@@ -38,7 +37,7 @@ class PackageCard extends StatelessWidget {
                   ),
                   const Gap(10),
                   Text(
-                    'Total ${package.services} Services',
+                    'Total ${package.service} Services',
                     style: const TextStyle(
                         color: Color(0xFF04EA4B),
                         fontWeight: FontWeight.bold,
@@ -51,14 +50,16 @@ class PackageCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '\$${package.price}',
+                    '\$${package.price.toStringAsFixed(0)}',
                     style: TextStyle(
                         color: Styles.blackColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 17),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print(package.name);
+                    },
                     style: ElevatedButton.styleFrom(
                       elevation: 3,
                       fixedSize: const Size(100, 0),

@@ -10,7 +10,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
-        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        ChangeNotifierProvider<FavoriteProvider>(create: (_) => FavoriteProvider()),
       ],
       child: const MyApp(),
     ),

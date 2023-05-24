@@ -52,6 +52,7 @@ class _LoginFormState extends State<LoginForm> {
       await prefs.setString('email', email.toString());
       await prefs.setString('username', username.toString());
 
+      print(jwtToken);
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const HomePage()));
     } else {

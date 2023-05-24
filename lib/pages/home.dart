@@ -1,9 +1,11 @@
 import 'package:pet_care/pages/carousel.dart';
+import 'package:pet_care/provider/favorite_provider.dart';
 import 'package:pet_care/widgets/animated_title.dart';
 import 'package:pet_care/widgets/pet_card.dart';
 import 'package:pet_care/widgets/stories_section.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/product_best_seller.dart';
 
@@ -14,6 +16,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      Provider.of<FavoriteProvider>(context, listen: false).initialize();
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return const Column(

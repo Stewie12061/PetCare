@@ -64,18 +64,6 @@ class _VetPageState extends State<VetPage> {
         'price': 499
       },
       {
-        'title': 'Online Essential Care',
-        'sub': '(220 minutes/month)',
-        'pet': null,
-        'items': [
-          'Chat Consults',
-          'Personalized Advice',
-          '1 month follow ups',
-          'Ticks & Fleas Preventive'
-        ],
-        'price': 499
-      },
-      {
         'title': 'Dog Consultation',
         'sub': null,
         'pet': 'assets/svg/pet_circle2.svg',
@@ -87,18 +75,7 @@ class _VetPageState extends State<VetPage> {
         ],
         'price': 599
       },
-      {
-        'title': 'Online Essential Care',
-        'sub': '(220 minutes/month)',
-        'pet': null,
-        'items': [
-          'Chat Consults',
-          'Personalized Advice',
-          '1 month follow ups',
-          'Ticks & Fleas Preventive'
-        ],
-        'price': 499
-      },
+
     ];
     return Material(
       child: Stack(
