@@ -70,13 +70,13 @@ class _DetailPageState extends State<DetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.product.name!,
+                  widget.product.name,
                   style: poppin.copyWith(
                       fontSize: 18, color: black, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  widget.product.description!,
+                  widget.product.description,
                   maxLines: 4,
                   style: poppin.copyWith(
                       height: 1.5, fontSize: 14, color: black.withOpacity(0.5)),
@@ -121,7 +121,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     const Spacer(),
                     Text(
-                      '\$${(quantity * widget.product.price!).toStringAsFixed(2)}',
+                      '\$${(quantity * widget.product.price).toStringAsFixed(2)}',
                       style: poppin.copyWith(
                           fontSize: 32,
                           color: black,

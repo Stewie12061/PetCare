@@ -84,7 +84,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: HexColor("#4f4f4f"),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email_outlined),
+                      prefixIcon: const Icon(Icons.email_outlined),
                       hintText: "Enter your email",
                       fillColor: HexColor("#f0f3f1"),
                       contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -123,7 +123,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     },
                     cursorColor: HexColor("#4f4f4f"),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: const Icon(Icons.account_circle_outlined),
                       hintText: "Enter Username",
                       fillColor: HexColor("#f0f3f1"),
                       contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -165,7 +165,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     obscureText: true,
                     cursorColor: HexColor("#4f4f4f"),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock_outline),
+                      prefixIcon: const Icon(Icons.lock_outline),
                       hintText: "Enter password",
                       fillColor: HexColor("#f0f3f1"),
                       contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -229,7 +229,7 @@ class _SignUpFormState extends State<SignUpForm> {
         textColor: Colors.white,
       );
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => LoginPage()));
+          context, MaterialPageRoute(builder: (_) => const LoginPage()));
     }else if (response.statusCode==400){
       Fluttertoast.showToast(
         msg: 'Account already exists',
@@ -244,14 +244,14 @@ class _SignUpFormState extends State<SignUpForm> {
         context: context,
         builder: (BuildContext dialogContext) {
           return AlertDialog(
-            title: Text('Sign up Fail'),
-            content: Text('Something went wrong please try again later'),
+            title: const Text('Sign up Fail'),
+            content: const Text('Something went wrong please try again later'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(dialogContext).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );

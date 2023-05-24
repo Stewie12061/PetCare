@@ -76,7 +76,6 @@ class Utilities {
     } else {
       throw Exception('Failed to fetch products for category');
     }
-    return [];
   }
   Future<List<ProductModel>> getDogProductsForCategory(CategoryModel category) async {
     Uri uri = Uri.parse("${url}product/dog/category/${category.id.toString()}");
@@ -94,7 +93,6 @@ class Utilities {
     } else {
       throw Exception('Failed to fetch products for category');
     }
-    return [];
   }
   Future<List<ProductModel>> getCatProductsForCategory(CategoryModel category) async {
     Uri uri = Uri.parse("${url}product/cat/category/${category.id.toString()}");
@@ -112,7 +110,6 @@ class Utilities {
     } else {
       throw Exception('Failed to fetch products for category');
     }
-    return [];
   }
 
   Future<List<ProductModel>> searchProducts(String query) async {
@@ -125,7 +122,6 @@ class Utilities {
       uri,
       headers: {"Authorization": "Bearer $token"},
     );
-    print(response.body);
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);

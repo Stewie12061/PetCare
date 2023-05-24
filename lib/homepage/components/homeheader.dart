@@ -1,15 +1,8 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:http/http.dart' as http;
 import 'package:pet_care/models/product_model.dart';
 import 'package:pet_care/service/Utilities.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../const.dart';
 import '../../pages/cart.dart';
 import '../../pages/detail.dart';
@@ -19,7 +12,7 @@ import '../../utils/styles.dart';
 import '../../widgets/product.dart';
 
 class HomeHeader extends StatefulWidget {
-  const HomeHeader({Key? key});
+  const HomeHeader({super.key});
 
   @override
   _HomeHeaderState createState() => _HomeHeaderState();
@@ -70,7 +63,7 @@ class _HomeHeaderState extends State<HomeHeader> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CartPage()),
+                  MaterialPageRoute(builder: (context) => const CartPage()),
                 );
               },
               child: SizedBox(

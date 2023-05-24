@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-
 import '../models/product_model.dart';
 import '../provider/favorite_provider.dart';
 
 class Favorite extends StatefulWidget {
+  const Favorite({super.key});
+
   @override
   _FavoriteState createState() => _FavoriteState();
 }
@@ -15,7 +14,7 @@ class _FavoriteState extends State<Favorite> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchFavoriteProducts();
     });
   }
@@ -40,22 +39,86 @@ class _FavoriteState extends State<Favorite> {
             itemCount: favoriteProducts.length,
             itemBuilder: (context, index) {
               final product = favoriteProducts[index];
-              return ListTile(
-                leading: Image.asset(
-                  'assets/products/${product.image}',
-                  width: 50,
-                  height: 50,
+              return Card(
+                elevation: 5,
+                margin: const EdgeInsets.only(
+                  top: 20,
+                  left: 20,
+                  right: 20,
+                  bottom: 5,
                 ),
-                title: Text(product.name),
-                subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    removeFromFavorites(product);
+                clipBehavior: Clip.hardEdge,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                child: InkWell(
+                  splashColor: Colors.blue.withAlpha(30),
+                  onTap: () {
+                    debugPrint('Card tapped.');
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 100,
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset.zero,
+                                    color: Color(0xFF42A5F5),
+                                    spreadRadius: -5,
+                                    blurRadius: 20,
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(
+                                'assets/products/${product.image}',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const Spacer(),
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  product.name,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '\$${product.price.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                removeFromFavorites(product);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               );
             },
@@ -64,4 +127,5 @@ class _FavoriteState extends State<Favorite> {
       },
     );
   }
+
 }

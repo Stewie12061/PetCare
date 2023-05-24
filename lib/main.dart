@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_care/pages/get_started.dart';
 import 'package:pet_care/provider/cart_provider.dart';

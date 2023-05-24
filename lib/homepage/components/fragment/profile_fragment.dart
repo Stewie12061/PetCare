@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_care/pages/vet_page.dart';
-
 import '../../../pages/profile_page.dart';
 
 class ProfileDetail extends StatelessWidget {
@@ -9,7 +7,7 @@ class ProfileDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return const Expanded(
         child: ProfilePage(),
     );
   }

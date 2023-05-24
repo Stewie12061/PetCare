@@ -1,11 +1,7 @@
-import 'package:pet_care/const.dart';
-import 'package:pet_care/utils/layouts.dart';
-import 'package:pet_care/utils/styles.dart';
 import 'package:pet_care/widgets/animated_title.dart';
 import 'package:pet_care/widgets/pet_card.dart';
 import 'package:pet_care/widgets/stories_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 import '../widgets/product_best_seller.dart';

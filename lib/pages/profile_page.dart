@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:icon_badge/icon_badge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -69,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Container(
+                            SizedBox(
                               width: (size.width - 40) * 0.6,
                               child: Column(
                                 children: [
@@ -239,7 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     width: 15,
                                   ),
                                   Expanded(
-                                    child: Container(
+                                    child: SizedBox(
                                       width: (size.width - 90) * 0.7,
                                       child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -266,20 +265,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ]),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      child: const Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "\$150",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
-                                          )
-                                        ],
-                                      ),
+                                  const Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "\$150",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],
@@ -332,7 +329,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     width: 15,
                                   ),
                                   Expanded(
-                                    child: Container(
+                                    child: SizedBox(
                                       width: (size.width - 90) * 0.7,
                                       child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -359,20 +356,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ]),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      child: const Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "\$250",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
-                                          )
-                                        ],
-                                      ),
+                                  const Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "\$250",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],
@@ -425,7 +420,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     width: 15,
                                   ),
                                   Expanded(
-                                    child: Container(
+                                    child: SizedBox(
                                       width: (size.width - 90) * 0.7,
                                       child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -451,20 +446,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ]),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      child: const Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "\$400",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
-                                          )
-                                        ],
-                                      ),
+                                  const Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "\$400",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],

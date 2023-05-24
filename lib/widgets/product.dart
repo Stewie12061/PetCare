@@ -20,7 +20,6 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
     FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
 
     return Consumer<CartProvider>(
@@ -84,12 +83,12 @@ class ProductItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      product.name!,
+                      product.name,
                       style: poppin.copyWith(
                           fontSize: 16, color: black, fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      '\$${(product.price)!.toStringAsFixed(2)}',
+                      '\$${(product.price).toStringAsFixed(2)}',
                       style: poppin.copyWith(
                           fontSize: 18, color: black, fontWeight: FontWeight.w600),
                     ),

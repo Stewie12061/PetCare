@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -39,7 +38,6 @@ class _LoginFormState extends State<LoginForm> {
       headers: headers,
       body: body,
     );
-    print(response.body);
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -55,20 +53,20 @@ class _LoginFormState extends State<LoginForm> {
       await prefs.setString('username', username.toString());
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => HomePage()));
+          context, MaterialPageRoute(builder: (_) => const HomePage()));
     } else {
       showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
           return AlertDialog(
-            title: Text('Login Fail'),
-            content: Text('Username or password is incorrect'),
+            title: const Text('Login Fail'),
+            content: const Text('Username or password is incorrect'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(dialogContext).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -193,7 +191,7 @@ class _LoginFormState extends State<LoginForm> {
                                           borderRadius: BorderRadius.circular(30),
                                           borderSide: BorderSide.none,
                                         ),
-                                        prefixIcon: Icon(Icons.lock_outline),
+                                        prefixIcon: const Icon(Icons.lock_outline),
                                         prefixIconColor: HexColor("#4f4f4f"),
                                         filled: true,
                                       ),
@@ -244,7 +242,7 @@ class _LoginFormState extends State<LoginForm> {
                                           borderRadius: BorderRadius.circular(30),
                                           borderSide: BorderSide.none,
                                         ),
-                                        prefixIcon: Icon(Icons.lock_outline),
+                                        prefixIcon: const Icon(Icons.lock_outline),
                                         prefixIconColor: HexColor("#4f4f4f"),
                                         filled: true,
                                       ),

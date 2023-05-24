@@ -1,20 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pet_care/models/category_model.dart';
 import 'package:pet_care/models/product_model.dart';
 import 'package:pet_care/service/Utilities.dart';
 import 'package:pet_care/widgets/product.dart';
 import 'package:provider/provider.dart';
-
-import '../homepage/components/homeheader.dart';
 import '../homepage/components/productheader.dart';
 import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
 import 'detail.dart';
 
 class AllProductsPage extends StatefulWidget {
+  const AllProductsPage({super.key});
+
   @override
   _CategoriesProductsScreenState createState() => _CategoriesProductsScreenState();
 }

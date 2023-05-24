@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../models/product_model.dart';
 import '../pages/all_product_page.dart';
 import '../pages/detail.dart';
-import '../provider/cart_provider.dart';
 import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
 
@@ -55,7 +54,6 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
     FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
     return SingleChildScrollView(
         child: Column(
@@ -76,7 +74,7 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AllProductsPage()),
+                        MaterialPageRoute(builder: (context) => const AllProductsPage()),
                       );
                     },
                     child: Text(

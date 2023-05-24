@@ -1,6 +1,5 @@
 import 'package:pet_care/models/package_details.dart';
 import 'package:pet_care/utils/styles.dart';
-import 'package:pet_care/widgets/back_button.dart';
 import 'package:pet_care/widgets/vet_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';

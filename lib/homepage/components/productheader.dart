@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-
 import '../../const.dart';
 import '../../pages/cart.dart';
 import '../../provider/cart_provider.dart';
-import '../../utils/styles.dart';
 
 class ProductHeader extends StatelessWidget {
   const ProductHeader({super.key});
@@ -48,7 +44,7 @@ class ProductHeader extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CartPage()));
+                    builder: (context) => const CartPage()));
           },
           child: SizedBox(
             height: 30,

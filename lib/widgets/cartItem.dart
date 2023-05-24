@@ -31,11 +31,15 @@ class CartItem extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: grey.withOpacity(0.4),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Image.asset('assets/products/${cart.product!.image!}'),
+            decoration:
+            const BoxDecoration(shape: BoxShape.circle, boxShadow: [
+              BoxShadow(
+                  offset: Offset.zero,
+                  color: Color(0xFF42A5F5),
+                  spreadRadius: -5,
+                  blurRadius: 20)
+            ]),
+            child: Image.asset('assets/products/${cart.product!.image}'),
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -43,7 +47,7 @@ class CartItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cart.product!.name!,
+                  cart.product!.name,
                   style: poppin.copyWith(
                       fontSize: 18, fontWeight: FontWeight.w600, color: black),
                 ),
@@ -65,7 +69,7 @@ class CartItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  '\$${(cart.product!.price!).toStringAsFixed(2)}',
+                  '\$${(cart.product!.price).toStringAsFixed(2)}',
                   style: poppin.copyWith(
                       fontSize: 18, fontWeight: FontWeight.w600, color: black),
                 ),

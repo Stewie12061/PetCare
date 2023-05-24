@@ -2,7 +2,6 @@ import 'package:pet_care/models/package.dart';
 import 'package:pet_care/pages/vet_page.dart';
 import 'package:pet_care/utils/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
 class PackageCard extends StatelessWidget {

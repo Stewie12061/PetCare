@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-
 import '../const.dart';
-import '../models/product_model.dart';
 import '../provider/cart_provider.dart';
 import '../utils/styles.dart';
 import '../widgets/cartItem.dart';
 
 class CartPage extends StatefulWidget {
+  const CartPage({super.key});
+
   @override
   _CartState createState() => _CartState();
 }
@@ -16,7 +16,7 @@ class _CartState extends State<CartPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchCartItem();
     });
   }
@@ -184,7 +184,7 @@ class _CartState extends State<CartPage> {
                           future: cartProvider.totalPrice(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
-                              return CircularProgressIndicator(); // Show a loading indicator while waiting for the result
+                              return const CircularProgressIndicator(); // Show a loading indicator while waiting for the result
                             }
                             if (snapshot.hasError) {
                               return const Text(
@@ -223,10 +223,10 @@ class _CartState extends State<CartPage> {
                           future: cartProvider.totalPrice(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
-                              return CircularProgressIndicator(); // Show a loading indicator while waiting for the result
+                              return const CircularProgressIndicator(); // Show a loading indicator while waiting for the result
                             }
                             if (snapshot.hasError) {
-                              return Text(
+                              return const Text(
                                 'Error',
                                 style: TextStyle(
                                   color: Colors.red,
@@ -262,10 +262,10 @@ class _CartState extends State<CartPage> {
                           future: cartProvider.totalPrice(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
-                              return CircularProgressIndicator(); // Show a loading indicator while waiting for the result
+                              return const CircularProgressIndicator(); // Show a loading indicator while waiting for the result
                             }
                             if (snapshot.hasError) {
-                              return Text(
+                              return const Text(
                                 'Error',
                                 style: TextStyle(
                                   color: Colors.red,

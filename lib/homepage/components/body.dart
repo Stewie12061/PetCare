@@ -33,7 +33,7 @@ class _BodyState extends State<Body> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: HomeHeader(),
+        title: const HomeHeader(),
         backgroundColor: Styles.highlightColor,
       ),
       bottomNavigationBar: BottomNavigationBar(

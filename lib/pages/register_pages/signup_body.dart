@@ -15,12 +15,6 @@ class SignUpBodyScreen extends StatefulWidget {
 
 class _SignUpBodyScreenState extends State<SignUpBodyScreen> {
   FlowController flowController = Get.put(FlowController());
-  late int _currentFlow;
-  @override
-  void initState() {
-    _currentFlow = FlowController().currentFlow;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
