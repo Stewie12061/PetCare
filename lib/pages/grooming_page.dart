@@ -14,21 +14,41 @@ class GroomingPage extends StatefulWidget {
 }
 
 class _GroomingPageState extends State<GroomingPage> {
-  List groomingList = [
+  List groomingListDog = [
     {
-      'name': 'Spa Bath',
+      'name': 'Dog Spa Bath',
       'services': 7,
       'bonus': 160,
       'price': 960,
     },
     {
-      'name': 'Bath + Basic Grooming',
+      'name': 'Dog Bath + Basic Grooming',
       'services': 10,
       'bonus': 239,
       'price': 1438,
     },
     {
-      'name': 'Full Service',
+      'name': 'Dog Full Service',
+      'services': 12,
+      'bonus': 299,
+      'price': 1798,
+    },
+  ];
+  List groomingListCat = [
+    {
+      'name': 'Cat Spa Bath',
+      'services': 7,
+      'bonus': 160,
+      'price': 960,
+    },
+    {
+      'name': 'Cat Bath + Basic Grooming',
+      'services': 10,
+      'bonus': 239,
+      'price': 1438,
+    },
+    {
+      'name': 'Cat Full Service',
       'services': 12,
       'bonus': 299,
       'price': 1798,
@@ -40,11 +60,11 @@ class _GroomingPageState extends State<GroomingPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
-      for (var i = 0; i < groomingList.length; i++) {
+      for (var i = 0; i < groomingListDog.length; i++) {
         setState(() {
           listKey.currentState!
               .insertItem(0, duration: Duration(milliseconds: 500 - i * 200));
-          _packages.add(groomingList[i]);
+          _packages.add(groomingListDog[i]);
         });
       }
     });
@@ -169,7 +189,7 @@ class _GroomingPageState extends State<GroomingPage> {
                   key: listKey,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (c, i, animation) {
-                    final package = Package.fromJson(groomingList[i]);
+                    final package = Package.fromJson(groomingListDog[i]);
                     return SlideTransition(
                       position: Tween<Offset>(
                         begin: const Offset(-0.5, 0),

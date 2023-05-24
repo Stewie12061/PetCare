@@ -166,7 +166,10 @@ class MySearchDelegate extends SearchDelegate{
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DetailPage(product: searchResults[index]),
+                          builder: (context) => DetailPage(
+                            product: searchResults[index],
+                            isFavorite: favoriteProvider.isProductFavorite(searchResults[index].id),
+                          ),
                         ),
                       );
                     },
@@ -221,7 +224,10 @@ class MySearchDelegate extends SearchDelegate{
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DetailPage(product: searchResults[index]),
+                          builder: (context) => DetailPage(
+                              product: searchResults[index],
+                            isFavorite: favoriteProvider.isProductFavorite(searchResults[index].id),
+                          ),
                         ),
                       );
                     },

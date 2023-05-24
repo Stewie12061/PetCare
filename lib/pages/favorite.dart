@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/product_model.dart';
 import '../provider/favorite_provider.dart';
+import 'detail.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({super.key});
@@ -54,7 +55,13 @@ class _FavoriteState extends State<Favorite> {
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    debugPrint('Card tapped.');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailPage(
+                                product: favoriteProducts[index],
+                              isFavorite: favoriteProvider.isProductFavorite(favoriteProducts[index].id),
+                            )));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -89,7 +96,7 @@ class _FavoriteState extends State<Favorite> {
                                 Text(
                                   product.name,
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),

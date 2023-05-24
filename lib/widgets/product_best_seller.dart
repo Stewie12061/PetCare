@@ -104,7 +104,9 @@ class _ProductBestSellerSection extends State<ProductBestSellerSection> with Sin
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailPage(
-                                      product: dataProduct[index])));
+                                      product: dataProduct[index],
+                                    isFavorite: favoriteProvider.isProductFavorite(dataProduct[index].id),
+                                  )));
                         },
                         child: ProductItem(
                           product: dataProduct[index],

@@ -134,7 +134,11 @@ class _CategoriesProductsScreenState extends State<AllDogProductPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => DetailPage(
-                                  product: products[index])));
+                                  product: products[index],
+                                isFavorite: favoriteProvider.isProductFavorite(products[index].id),
+                              )
+                          )
+                      );
                     },
                     child: ProductItem(
                       product: product,

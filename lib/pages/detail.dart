@@ -5,21 +5,27 @@ import 'package:provider/provider.dart';
 import '../const.dart';
 import '../models/product_model.dart';
 import '../provider/cart_provider.dart';
+import '../provider/favorite_provider.dart';
 import '../utils/styles.dart';
 
 class DetailPage extends StatefulWidget {
   final ProductModel product;
-  const DetailPage({Key? key, required this.product}) : super(key: key);
+  bool isFavorite;
+
+  DetailPage({super.key, required this.product, required this.isFavorite});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    FavoriteProvider favoriteProvider = Provider.of<FavoriteProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -140,46 +146,67 @@ class _DetailPageState extends State<DetailPage> {
         color: white,
         padding: const EdgeInsets.all(20),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.favorite_outline,
-              size: 32,
-              color: grey,
-            ),
-            const SizedBox(width: 25),
             GestureDetector(
               onTap: () {
-                cartProvider.addCart(widget.product, quantity);
-                Fluttertoast.showToast(
-                  msg: 'Add ${widget.product.name} to cart',
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.TOP,
-                  backgroundColor:Styles.highlightColor,
-                  textColor: Colors.white,
-                );
+                if (widget.isFavorite) {
+                  favoriteProvider.removeFromFavorites(widget.product);
+                } else {
+                  favoriteProvider.addToFavorites(widget.product);
+                }
+                setState(() {
+                  widget.isFavorite = !widget.isFavorite;
+                });
               },
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
-                decoration: BoxDecoration(
-                    color: Styles.highlightColor, borderRadius: BorderRadius.circular(20)),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Center(
+                  child: Icon(
+                    widget.isFavorite ? Icons.favorite: Icons.favorite_border ,
+                    color: Colors.red,
+                    size: 50,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  cartProvider.addCart(widget.product, quantity);
+                  Fluttertoast.showToast(
+                    msg: 'Add ${widget.product.name} to cart',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.TOP,
+                    backgroundColor: Styles.highlightColor,
+                    textColor: Colors.white,
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Styles.highlightColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.shopping_cart_outlined, color: white),
-                      const SizedBox(width: 10),
+                      Icon(Icons.shopping_cart_outlined, color: white),
+                      SizedBox(width: 10),
                       Text(
                         'Add to cart',
                         style: poppin.copyWith(
-                            color: white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
+                          color: white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
