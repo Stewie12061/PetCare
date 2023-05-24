@@ -1,3 +1,4 @@
+import 'package:pet_care/pages/carousel.dart';
 import 'package:pet_care/widgets/animated_title.dart';
 import 'package:pet_care/widgets/pet_card.dart';
 import 'package:pet_care/widgets/stories_section.dart';
@@ -15,15 +16,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(15),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Gap(20),
-          AnimatedTitle(title: 'What are you looking for?'),
-          Gap(10),
-          Row(
+    return const Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Carousel(),
+        Gap(20),
+        AnimatedTitle(title: 'What are you looking for?'),
+        Gap(10),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Row(
             children: [
               PetCard(petPath: 'assets/svg/cat1.svg', petName: 'Cat Item'),
               Gap(28),
@@ -34,14 +36,14 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          Gap(25),
-          ProductBestSellerSection(),
-          Gap(25),
-          AnimatedTitle(title: 'Stories'),
-          Gap(10),
-          StoriesSection(),
-        ],
-      ),
+        ),
+        Gap(25),
+        ProductBestSellerSection(),
+        Gap(25),
+        AnimatedTitle(title: 'Stories'),
+        Gap(10),
+        StoriesSection(),
+      ],
     );
   }
 }
