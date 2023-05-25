@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_care/utils/styles.dart';
@@ -194,8 +196,9 @@ class _CheckoutState extends State<CheckOutPage>{
                           );
                         }
                         final totalPrice = snapshot.data ?? 0.0;
+                        final finalPrice = ((totalPrice*1.1) + 5.00);
                         return Text(
-                          '\$${((totalPrice*1.1) + 5).toStringAsFixed(2)}',
+                          '\$${finalPrice.toStringAsFixed(2)}',
                           style: poppin.copyWith(
                             fontSize: 16,
                             color: grey,

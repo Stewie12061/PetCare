@@ -1,4 +1,5 @@
 import 'package:pet_care/models/package.dart';
+import 'package:pet_care/pages/booking_page.dart';
 import 'package:pet_care/pages/vet_page.dart';
 import 'package:pet_care/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,8 @@ class PackageCard extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      print(package.name);
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => BookingPage(package: package,)));
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 3,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_care/homepage/homepage.dart';
+import 'package:pet_care/pages/booking_success_page.dart';
 import 'package:pet_care/pages/get_started.dart';
 import 'package:pet_care/pages/register_pages/login.dart';
 import 'package:pet_care/provider/cart_provider.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/signin': (context) => const LoginPage(),
-        '/home': (context) => const HomePage(),
+        'home': (context) => const HomePage(),
+        'success_booking': (context) => const AppointmentBooked(),
       },
       home: const GetStarted(),
     );

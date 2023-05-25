@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:pet_care/pages/checkou_page.dart';
+import 'package:pet_care/pages/checkout_page.dart';
 import 'package:provider/provider.dart';
 import '../const.dart';
 import '../provider/cart_provider.dart';
@@ -293,7 +293,7 @@ class _CartState extends State<CartPage> {
                     InkWell(
                       onTap: (){
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (_) => CheckOutPage()));
+                            context, MaterialPageRoute(builder: (_) => const CheckOutPage()));
                       },
                       child: Container(
                         height: 50,

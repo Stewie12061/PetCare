@@ -50,6 +50,7 @@ dependencies:
   get: ^4.6.5
   carousel_slider: ^4.2.1
   rxdart: ^0.27.7
+  table_calendar: ^3.0.2
 
 dev_dependencies:
   flutter_test:

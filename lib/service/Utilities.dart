@@ -113,8 +113,7 @@ class Utilities {
   }
 
   Future<List<ProductModel>> searchProducts(String query) async {
-    String url = 'http://10.0.2.2:8080/api/v1/product/';
-    Uri uri = Uri.parse("${url}search?query=$query");
+    Uri uri = Uri.parse("${url}product/search?query=$query");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("jwtToken")!;
     // Make API request to the backend and retrieve search results
@@ -132,6 +131,33 @@ class Utilities {
       throw Exception('Failed to fetch products for category');
     }
 
+  }
+
+  Future<dynamic> bookAppointment(int groomingPackageId, String date, String day, String time) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    String userId = prefs.getString("userId")!;
+    Uri uri = Uri.parse("${url}appointment/users/$userId/book");
+    final response = await http.post(
+      uri,
+      body: json.encode({
+        'groomingPackageId': groomingPackageId,
+        'date': date,
+        'day': day,
+        'time': time
+      }),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json", // Set the content type to JSON
+      },
+    );
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      return 'Error';
+    }
   }
 
 }
