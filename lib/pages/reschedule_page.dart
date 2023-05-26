@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pet_care/service/Utilities.dart';
@@ -14,16 +12,18 @@ import '../utils/Config.dart';
 import '../utils/styles.dart';
 import '../widgets/datetime_convert.dart';
 
-class BookingPage extends StatefulWidget {
-  final Package package;
+class ReschedulePage extends StatefulWidget {
+  final int packageId;
+  final String groomingPackageName;
+  final double price;
 
-  const BookingPage({super.key, required this.package});
+  const ReschedulePage({super.key, required this.packageId, required this.groomingPackageName, required this.price});
 
   @override
-  State<BookingPage> createState() => _BookingPageState();
+  State<ReschedulePage> createState() => _ReschedulePageState();
 }
 
-class _BookingPageState extends State<BookingPage> {
+class _ReschedulePageState extends State<ReschedulePage> {
   //declaration
   List<bool> availableTimeSlots = [];
   CalendarFormat _format = CalendarFormat.month;
@@ -88,7 +88,7 @@ class _BookingPageState extends State<BookingPage> {
           ),
         ),
         title: Text(
-          'Appointment for ${widget.package.name}',
+          'Reschedule for ${widget.groomingPackageName}',
           style: poppin.copyWith(
               fontSize: 18, color: black, fontWeight: FontWeight.w600),
         ),
@@ -196,81 +196,81 @@ class _BookingPageState extends State<BookingPage> {
                     final getTime = DateConverted.getTime(_currentIndex!);
 
                     showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Center(
-                            child: Text(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Center(
+                              child: Text(
                                 'Confirm Appointment',
-                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                            )),
-                        content: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          elevation: 5,
-                          child: Container(
-                            padding: EdgeInsets.all(10.0),
-                            height: 120,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Appointment on \n$getDay, $getDate",
+                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                              )),
+                          content: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 5,
+                            child: Container(
+                              padding: EdgeInsets.all(10.0),
+                              height: 120,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Appointment on \n$getDay, $getDate",
                                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                                  overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
-                                ),
+                                    overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
+                                  ),
 
-                                Text("At $getTime",
+                                  Text("At $getTime",
                                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                                  overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
-                                )
-                              ],
+                                    overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                  child: Text('Cancel'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Styles.highlightColor
+                          actions: <Widget>[
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ElevatedButton(
+                                    child: Text('Cancel'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Styles.highlightColor
+                                    ),
                                   ),
-                                ),
-                                ElevatedButton(
-                                  child: Text('Confirm'),
-                                  onPressed: () async {
-                                    final booking = await Utilities().bookAppointment(
-                                        widget.package.id,
-                                        getDate, getDay, getTime, widget.package.price,1);
-                                    if (booking == 200){
-                                      Navigator.of(context).pushNamed('success_booking');
-                                    }
-                                    else {
-                                      Fluttertoast.showToast(
-                                        msg: 'Something when wrong \nPlease try again later',
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.CENTER,
-                                        backgroundColor: Styles.highlightColor,
-                                        textColor: Colors.white,
-                                      );
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Styles.highlightColor
+                                  ElevatedButton(
+                                    child: Text('Confirm'),
+                                    onPressed: () async {
+                                      final booking = await Utilities().bookAppointment(
+                                          widget.packageId,
+                                          getDate, getDay, getTime, widget.price,1);
+                                      if (booking == 200){
+                                        Navigator.of(context).pushNamed('success_booking');
+                                      }
+                                      else {
+                                        Fluttertoast.showToast(
+                                          msg: 'Something when wrong \nPlease try again later',
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.CENTER,
+                                          backgroundColor: Styles.highlightColor,
+                                          textColor: Colors.white,
+                                        );
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Styles.highlightColor
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    },
+                          ],
+                        );
+                      },
                     );
                   },
                   disable: _timeSelected && _dateSelected ? false : true,

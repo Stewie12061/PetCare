@@ -49,4 +49,5 @@ class Config {
       ));
 
   static const primaryColor = Colors.cyan;
+  static const colorBlack = Colors.black;
 }

@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:pet_care/models/category_model.dart';
 import 'package:pet_care/models/product_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/apointment.dart';
 
 class Utilities {
   String url = "http://10.0.2.2:8080/api/v1/";
@@ -133,7 +136,7 @@ class Utilities {
 
   }
 
-  Future<dynamic> bookAppointment(int groomingPackageId, String date, String day, String time) async {
+  Future<dynamic> bookAppointment(int groomingPackageId, String date, String day, String time, double price, int status) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("jwtToken")!;
     String userId = prefs.getString("userId")!;
@@ -144,19 +147,100 @@ class Utilities {
         'groomingPackageId': groomingPackageId,
         'date': date,
         'day': day,
-        'time': time
+        'time': time,
+        'price': price,
+        'status': status,
       }),
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json", // Set the content type to JSON
       },
     );
-    print(response.body);
 
     if (response.statusCode == 200) {
       return response.statusCode;
     } else {
       return 'Error';
+    }
+  }
+
+  Future<List<Appointment>> fetchAppointments(int status) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("jwtToken")!;
+      String userId = prefs.getString("userId")!;
+      Uri uri = Uri.parse("${url}appointment/$userId/$status");
+      final response = await http.get(
+        uri,
+        headers: {"Authorization": "Bearer $token"},
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        final List<Appointment> fetchedAppointments = [];
+        for (var appointmentData in jsonData) {
+          final appointment = Appointment.fromJson(appointmentData);
+          fetchedAppointments.add(appointment);
+        }
+        return fetchedAppointments;
+      } else {
+        // Handle API error
+        print('Failed to fetch appointments. Status code: ${response.statusCode}');
+        return [];
+      }
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to fetch appointments. Error: $error');
+      return [];
+    }
+  }
+
+  Future<int> cancelAppointment(int appointmentId) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("jwtToken")!;
+      Uri uri = Uri.parse("${url}appointment/$appointmentId/cancel");
+      final response = await http.put(
+        uri,
+        headers: {"Authorization": "Bearer $token"},
+      );
+      return response.statusCode;
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to cancel appointment. Error: $error');
+      return 0;
+    }
+  }
+
+  Future<List<Appointment>> fetchClosestAppointments() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("jwtToken")!;
+      String userId = prefs.getString("userId")!;
+      Uri uri = Uri.parse("${url}appointment/$userId/upcomingAppointment");
+      final response = await http.get(
+        uri,
+        headers: {"Authorization": "Bearer $token"},
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        final List<Appointment> fetchedAppointments = [];
+        for (var appointmentData in jsonData) {
+          final appointment = Appointment.fromJson(appointmentData);
+          fetchedAppointments.add(appointment);
+        }
+
+        return fetchedAppointments;
+      } else {
+        // Handle API error
+        print('Failed to fetch appointments. Status code: ${response.statusCode}');
+        return [];
+      }
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to fetch appointments. Error: $error');
+      return [];
     }
   }
 
