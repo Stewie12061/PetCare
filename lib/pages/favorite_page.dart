@@ -50,7 +50,7 @@ class _FavoriteState extends State<Favorite> {
                 ),
                 clipBehavior: Clip.hardEdge,
                 shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
                 ),
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),

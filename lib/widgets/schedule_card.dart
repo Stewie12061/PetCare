@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/Config.dart';
+import '../utils/styles.dart';
 
 class ScheduleCard extends StatelessWidget {
   const ScheduleCard(
@@ -15,7 +16,7 @@ class ScheduleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: Styles.bgColor,
         borderRadius: BorderRadius.circular(10),
       ),
       width: double.infinity,
@@ -26,7 +27,7 @@ class ScheduleCard extends StatelessWidget {
         children: <Widget>[
           const Icon(
             Icons.calendar_today,
-            color: Config.primaryColor,
+            color: Config.colorBlack,
             size: 15,
           ),
           const SizedBox(
@@ -35,7 +36,7 @@ class ScheduleCard extends StatelessWidget {
           Text(
             '$day, $date',
             style: const TextStyle(
-              color: Config.primaryColor,
+              color: Config.colorBlack,
             ),
           ),
           const SizedBox(
@@ -43,7 +44,7 @@ class ScheduleCard extends StatelessWidget {
           ),
           const Icon(
             Icons.access_alarm,
-            color: Config.primaryColor,
+            color: Config.colorBlack,
             size: 17,
           ),
           const SizedBox(
@@ -53,7 +54,7 @@ class ScheduleCard extends StatelessWidget {
               child: Text(
                 time,
                 style: const TextStyle(
-                  color: Config.primaryColor,
+                  color: Config.colorBlack,
                 ),
               ))
         ],

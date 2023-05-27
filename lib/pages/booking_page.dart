@@ -163,8 +163,10 @@ class _BookingPageState extends State<BookingPage> {
                               : Colors.black,
                         ),
                         borderRadius: BorderRadius.circular(15),
-                        color: _currentIndex == index ? Config.primaryColor
-                            : null,
+                        color:
+                        // !availableTimeSlots[index] ? null :
+                        _currentIndex == index ? Config.primaryColor
+                            : availableTimeSlots[index] ? Colors.white : Colors.grey,
                       ),
                       alignment: Alignment.center,
                       child: Text(
