@@ -24,8 +24,9 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  //declaration
-  List<bool> availableTimeSlots = [];
+  // List<bool> availableTimeSlots = [];
+  List<bool> availableTimeSlots = List.generate(8, (_) => false);
+
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
@@ -56,12 +57,13 @@ class _BookingPageState extends State<BookingPage> {
 
     if (response.statusCode == 200) {
       final availabilityData = json.decode(response.body);
+      List<String> bookedTimeSlots = List<String>.from(availabilityData['bookedTimeSlots']);
 
       setState(() {
         availableTimeSlots = List.generate(8, (index) {
           final timeSlot = index + 9;
           final formattedTime = timeSlot > 11 ? '$timeSlot:00 PM' : '$timeSlot:00 AM';
-          return !availabilityData['bookedTimeSlots'].contains(formattedTime);
+          return !bookedTimeSlots.contains(formattedTime);
         });
       });
     } else {

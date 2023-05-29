@@ -40,89 +40,99 @@ class _BodyState extends State<Body> {
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Styles.highlightColor, // Thay đổi màu nền ở đây
+          canvasColor: Styles.highlightColor,
         ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.shifting,
-          elevation: 5,
-          backgroundColor: Colors.black,
-          currentIndex: selectIndex,
-          fixedColor: Colors.white,
-          onTap: (index) {
-            setState(() {
-              selectIndex = index;
-              if (selectIndex != 3) {
-                flag = true;
-              } else {
-                flag = false;
-              }
-            });
-          },
-          // selectedLabelStyle: TextStyle(color: Colors.cyan),
-          // unselectedLabelStyle: TextStyle(color: Colors.black),
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/nav_icons/dog_icon.svg',
-                width: 24,
-                height: 24,
+        child: Container(
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black54,
+                  blurRadius:8.0
               ),
-              activeIcon: SvgPicture.asset(
-                'assets/nav_icons/dog_icon.svg',
-                width: 24,
-                height: 24,
-                color: Colors.white,
-              ),
-              label: 'Home'
+            ],
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.shifting,
+            backgroundColor: Colors.black,
+            elevation: 10,
+            currentIndex: selectIndex,
+            fixedColor: Colors.white,
+            onTap: (index) {
+              setState(() {
+                selectIndex = index;
+                if (selectIndex != 3) {
+                  flag = true;
+                } else {
+                  flag = false;
+                }
+              });
+            },
+            // selectedLabelStyle: TextStyle(color: Colors.cyan),
+            // unselectedLabelStyle: TextStyle(color: Colors.black),
+            items: [
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/nav_icons/dog_icon.svg',
+                  width: 24,
+                  height: 24,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/nav_icons/dog_icon.svg',
+                  width: 24,
+                  height: 24,
+                  color: Colors.white,
+                ),
+                label: 'Home'
 
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/nav_icons/favorite_icon.svg',
-                width: 24,
-                height: 24,
               ),
-              activeIcon: SvgPicture.asset(
-                'assets/nav_icons/favorite_icon.svg',
-                width: 24,
-                height: 24,
-                color: Colors.white,
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/nav_icons/favorite_icon.svg',
+                  width: 24,
+                  height: 24,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/nav_icons/favorite_icon.svg',
+                  width: 24,
+                  height: 24,
+                  color: Colors.white,
+                ),
+                label: 'Favorite'
               ),
-              label: 'Favorite'
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/nav_icons/cut_icon.svg',
-                width: 24,
-                height: 24,
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/nav_icons/cut_icon.svg',
+                  width: 24,
+                  height: 24,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/nav_icons/cut_icon.svg',
+                  width: 24,
+                  height: 24,
+                  color: Colors.white,
+                ),
+                label: 'Grooming'
               ),
-              activeIcon: SvgPicture.asset(
-                'assets/nav_icons/cut_icon.svg',
-                width: 24,
-                height: 24,
-                color: Colors.white,
-              ),
-              label: 'Grooming'
-            ),
-            BottomNavigationBarItem(
-              icon: const FaIcon(FontAwesomeIcons.solidCalendar,color: Colors.black,),
-              activeIcon: FaIcon(FontAwesomeIcons.solidCalendarCheck,color: Colors.white,),
-              label: 'Appointment'
+              const BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.solidCalendar,color: Colors.black,),
+                activeIcon: FaIcon(FontAwesomeIcons.solidCalendarCheck,color: Colors.white,),
+                label: 'Appointment'
 
-            ),
-            BottomNavigationBarItem(
-              icon:  const Icon(
-                  Icons.account_circle,
-                color: Colors.black,
               ),
-              activeIcon: Icon(
-                  Icons.account_circle,
-                color: Colors.white,
+              const BottomNavigationBarItem(
+                icon:  Icon(
+                    Icons.account_circle,
+                  color: Colors.black,
+                ),
+                activeIcon: Icon(
+                    Icons.account_circle,
+                  color: Colors.white,
+                ),
+                label: 'Profile'
               ),
-              label: 'Profile'
-            ),
-          ],
+            ],
 
+          ),
         ),
       ),
       body: SafeArea(

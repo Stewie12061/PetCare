@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care/pages/reschedule_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../models/apointment.dart';
 import '../service/Utilities.dart';
 import '../utils/Config.dart';
 import '../widgets/schedule_card.dart';
+import 'map_page.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({Key? key}) : super(key: key);
@@ -23,6 +25,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
   final Utilities utilities = Utilities();
   List<Appointment> appointments = [];
   late int statusFetch=1;
+  bool canceled=false;
+  bool completed=false;
 
   Future<void> fetchAppointments(int status) async {
     final fetchedAppointments = await utilities.fetchAppointments(status);
@@ -30,6 +34,23 @@ class _AppointmentPageState extends State<AppointmentPage> {
     setState(() {
       appointments = fetchedAppointments;
     });
+  }
+  Future<void> cancelAppointment(int appointmentId) async {
+    try {
+      int status = await utilities.cancelAppointment(appointmentId);
+
+      if (status == 200) {
+        // Appointment canceled successfully
+        // Refresh the list of appointments or handle as needed
+        fetchAppointments(statusFetch);
+      } else {
+        // Handle API error
+        print('Failed to cancel appointment');
+      }
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to cancel appointment. Error: $error');
+    }
   }
 
   @override
@@ -40,21 +61,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> filteredSchedules = schedules.where((var schedule) {
-      switch (schedule['status']) {
-        case 'upcoming':
-          schedule['status'] = FilterStatus.upcoming;
-          break;
-        case 'completed':
-          schedule['status'] = FilterStatus.complete;
-          break;
-        case 'canceled':
-          schedule['status'] = FilterStatus.cancel;
-          break;
-      }
-      return schedule['status'] == status;
-    }).toList();
-
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
@@ -93,16 +99,22 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                   _alignment = Alignment.centerLeft;
                                   statusFetch = 1;
                                   fetchAppointments(statusFetch);
+                                  canceled=false;
+                                  completed=false;
                                 } else if (filterStatus ==FilterStatus.complete) {
                                   status = FilterStatus.complete;
                                   _alignment = Alignment.center;
                                   statusFetch = 2;
                                   fetchAppointments(statusFetch);
+                                  canceled=false;
+                                  completed=true;
                                 } else if (filterStatus ==FilterStatus.cancel) {
                                   status = FilterStatus.cancel;
                                   _alignment = Alignment.centerRight;
                                   statusFetch = 3;
                                   fetchAppointments(statusFetch);
+                                  canceled = true;
+                                  completed = false;
                                 }
                               });
                             },
@@ -159,6 +171,51 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                           Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const Text(
+                                        'Address: ',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.push(
+                                              context, MaterialPageRoute(builder: (_) => const MapPage()));
+                                        },
+                                        child: const Text(
+                                          'Open map',
+                                          style: TextStyle(
+                                            color: Colors.cyan,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  const Text(
+                                    '828 Sư Vạn Hạnh, Phường 12, Quận 10, TP HCM',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                           const SizedBox(
                             height: 15,
                           ),
@@ -175,7 +232,32 @@ class _AppointmentPageState extends State<AppointmentPage> {
                             children: [
                               Expanded(
                                 child: OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Cancel Appointment'),
+                                            content: const Text('Are you sure you want to cancel this appointment?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: const Text('No'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text('Yes'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                  cancelAppointment(schedule.id);
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                    );
+                                  },
                                   child: const Text(
                                     'Cancel',
                                     style:
@@ -191,7 +273,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Config.primaryColor,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ReschedulePage(
+                                              packageId: schedule.packageId,
+                                              price: schedule.price,
+                                              groomingPackageName: schedule.groomingPackageName,
+                                            )
+                                        )
+                                    );
+                                  },
                                   child: const Text(
                                     'Reschedule',
                                     style: TextStyle(color: Colors.white),

@@ -51,6 +51,9 @@ dependencies:
   carousel_slider: ^4.2.1
   rxdart: ^0.27.7
   table_calendar: ^3.0.2
+  google_maps_flutter: ^2.2.8
+  geolocator: ^8.0.0
+  geocoding: ^2.0.0
 
 dev_dependencies:
   flutter_test:
