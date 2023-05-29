@@ -211,6 +211,22 @@ class Utilities {
       return 0;
     }
   }
+  Future<int> deleteAppointment(int appointmentId) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("jwtToken")!;
+      Uri uri = Uri.parse("${url}appointment/$appointmentId/delete");
+      final response = await http.delete(
+        uri,
+        headers: {"Authorization": "Bearer $token"},
+      );
+      return response.statusCode;
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to cancel appointment. Error: $error');
+      return 0;
+    }
+  }
 
   Future<List<Appointment>> fetchClosestAppointments() async {
     try {

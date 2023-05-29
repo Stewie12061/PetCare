@@ -56,6 +56,9 @@ class _LoginFormState extends State<LoginForm> {
       await prefs.setString('fullname', fullname.toString());
       await prefs.setString('phonenumber', phonenumber.toString());
 
+      //check appointment
+      await checkAndUpdateAppointments(userId,jwtToken);
+
       print(responseData);
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const HomePage()));
@@ -77,6 +80,20 @@ class _LoginFormState extends State<LoginForm> {
           );
         },
       );
+    }
+  }
+
+  Future<void> checkAndUpdateAppointments(int userId, String jwtToken) async {
+    final url = 'http://10.0.2.2:8080/api/v1/appointment/users/$userId/checkAndUpdateAppointments';
+    final response = await http.put(
+        Uri.parse(url),
+      headers: {"Authorization": "Bearer $jwtToken"},
+    );
+    if (response.statusCode == 200) {
+      print('Appointments checked and updated successfully.');
+    } else {
+      print('Failed to check and update appointments.');
+      print(response.body);
     }
   }
 

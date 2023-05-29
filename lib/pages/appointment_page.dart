@@ -52,6 +52,23 @@ class _AppointmentPageState extends State<AppointmentPage> {
       print('Failed to cancel appointment. Error: $error');
     }
   }
+  Future<void> deleteAppointment(int appointmentId) async {
+    try {
+      int status = await utilities.deleteAppointment(appointmentId);
+
+      if (status == 200) {
+        // Appointment canceled successfully
+        // Refresh the list of appointments or handle as needed
+        fetchAppointments(statusFetch);
+      } else {
+        // Handle API error
+        print('Failed to cancel appointment');
+      }
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to cancel appointment. Error: $error');
+    }
+  }
 
   @override
   void initState() {
@@ -230,6 +247,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              if(status==FilterStatus.upcoming)
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: () {
@@ -265,10 +283,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                   ),
                                 ),
                               ),
+                              if(status==FilterStatus.upcoming)
                               const SizedBox(
-                                width: 20,
+                              width: 20,
                               ),
-                              Expanded(
+                              if(status==FilterStatus.upcoming)
+                                Expanded(
                                 child: OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Config.primaryColor,
@@ -291,6 +311,42 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                   ),
                                 ),
                               ),
+                              if(status==FilterStatus.complete||status==FilterStatus.cancel)
+                                Expanded(
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Delete Appointment'),
+                                              content: const Text('Are you sure you want to delete this appointment?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('No'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text('Yes'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                    deleteAppointment(schedule.id);
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Delete',
+                                      style:
+                                      TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                         ],
