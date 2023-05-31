@@ -81,7 +81,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                     ),
                     cartProvider.carts.isNotEmpty
                         ? Positioned(
-                      top: -8,
+                      top: -5,
                       right: 0,
                       child: Container(
                         padding: const EdgeInsets.all(5),
@@ -93,7 +93,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                           '${cartProvider.carts.length}',
                           style: poppin.copyWith(
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

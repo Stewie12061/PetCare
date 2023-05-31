@@ -62,22 +62,43 @@ class _CartState extends State<CartPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: cartProvider.carts.isNotEmpty
-                    ? Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: '${cartProvider.carts.length} ',
-                      style: poppin.copyWith(
-                          fontSize: 14, fontWeight: FontWeight.w600)),
-                  TextSpan(
-                      text: cartProvider.carts.length > 1
-                          ? ' Items'
-                          : ' Item',
-                      style: poppin.copyWith(
-                          fontSize: 14, fontWeight: FontWeight.w400)),
-                ]))
-                    : Container(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: cartProvider.carts.isNotEmpty
+                        ? Text.rich(TextSpan(children: [
+                      TextSpan(
+                          text: '${cartProvider.carts.length} ',
+                          style: poppin.copyWith(
+                              fontSize: 16, fontWeight: FontWeight.w600)),
+                      TextSpan(
+                          text: cartProvider.carts.length > 1
+                              ? ' Items'
+                              : ' Item',
+                          style: poppin.copyWith(
+                              fontSize: 16, fontWeight: FontWeight.w400)),
+                    ]))
+                        : Container(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: GestureDetector(
+                      onTap: (){
+                        cartProvider.removeAllItemsCart();
+                      },
+                      child: const Text(
+                        'Clear All',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.cyan,
+                          fontWeight: FontWeight.w500
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
               const SizedBox(height: 20),
               Expanded(

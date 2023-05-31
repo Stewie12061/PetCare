@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../widgets/button.dart';
 import 'dart:async';
 
-class AppointmentBooked extends StatefulWidget {
-  const AppointmentBooked({Key? key}) : super(key: key);
+class ProcessingScreen extends StatefulWidget {
+  const ProcessingScreen({Key? key}) : super(key: key);
 
   @override
-  _AppointmentBookedState createState() => _AppointmentBookedState();
+  _ProcessingScreenState createState() => _ProcessingScreenState();
 }
 
-class _AppointmentBookedState extends State<AppointmentBooked> {
+class _ProcessingScreenState extends State<ProcessingScreen> {
   bool _isLoading = true;
 
   @override
@@ -42,7 +42,7 @@ class _AppointmentBookedState extends State<AppointmentBooked> {
               child: _isLoading
                   ? null
                   : const Text(
-                'Successfully Booked',
+                'Successfully Order',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

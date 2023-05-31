@@ -13,6 +13,7 @@ class CartProvider with ChangeNotifier {
   List<CartModel> get carts => _carts;
   bool get isLoading => _isLoading;
 
+
   // set carts(List<CartModel> carts) {
   //   _carts = carts;
   //   notifyListeners();
@@ -77,6 +78,23 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  Future<void> removeAllItemsCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    String userId = prefs.getString("userId")!;
+    Uri uri = Uri.parse("http://10.0.2.2:8080/api/v1/product/users/$userId/carts/removeAll");
+    final response = await http.delete(
+      uri,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    if (response.statusCode == 200) {
+      // Remove cart item locally
+      _carts.clear();
+      notifyListeners();
+    }
+  }
+
   Future<void> fetchCartItems() async {
     _isLoading = true;
 
@@ -113,5 +131,7 @@ class CartProvider with ChangeNotifier {
       throw Exception('Failed to get total price.');
     }
   }
+
+
 
 }

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/apointment.dart';
+import '../models/order_model.dart';
 
 class Utilities {
   String url = "http://10.0.2.2:8080/api/v1/";
@@ -195,6 +196,33 @@ class Utilities {
     }
   }
 
+  Future<int> rescheduleAppointments(int appointmentId, String date, String time) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("jwtToken")!;
+      String userId = prefs.getString("userId")!;
+      Uri uri = Uri.parse("${url}appointment/users/$userId/$appointmentId/reschedule");
+      final response = await http.put(
+        uri,
+        body: json.encode({
+          'time': time,
+          'date': date,
+        }),
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+
+        },
+      );
+
+      return response.statusCode;
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to fetch appointments. Error: $error');
+      return 0;
+    }
+  }
+
   Future<int> cancelAppointment(int appointmentId) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -257,6 +285,37 @@ class Utilities {
       // Handle network or server error
       print('Failed to fetch appointments. Error: $error');
       return [];
+    }
+  }
+
+  Future<dynamic> makeOrder(Order order) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("jwtToken")!;
+    String userId = prefs.getString("userId")!;
+    Uri uri = Uri.parse("${url}order/users/$userId/makeOrder");
+    final response = await http.post(
+      uri,
+      body: json.encode({
+        'address': order.address,
+        'city': order.city,
+        'country': order.country,
+        'zipCode': order.zipCode,
+        'orderPrice': order.orderPrice,
+        'itemQuantity': order.itemQuantity,
+        'isPaid': order.isPaid,
+        'isCompleted': order.isCompleted,
+        'dateOrder': order.dateOrder,
+      }),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json", // Set the content type to JSON
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      return 'Error';
     }
   }
 

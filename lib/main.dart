@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pet_care/homepage/homepage.dart';
 import 'package:pet_care/pages/booking_success_page.dart';
 import 'package:pet_care/pages/get_started.dart';
+import 'package:pet_care/pages/order_view_page.dart';
+import 'package:pet_care/pages/profile_page.dart';
 import 'package:pet_care/pages/register_pages/login.dart';
 import 'package:pet_care/provider/cart_provider.dart';
 import 'package:pet_care/provider/favorite_provider.dart';
 import 'package:pet_care/utils/styles.dart';
+import 'package:pet_care/widgets/processing.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => const LoginPage(),
         'home': (context) => const HomePage(),
         'success_booking': (context) => const AppointmentBooked(),
+        'success_order': (context) => const ProcessingScreen(),
+        'order_view': (context) => const OrderViewPage(),
+        'profile': (context) => const ProfilePage()
       },
       home: const GetStarted(),
     );

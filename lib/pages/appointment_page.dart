@@ -298,6 +298,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ReschedulePage(
+                                              id: schedule.id,
                                               packageId: schedule.packageId,
                                               price: schedule.price,
                                               groomingPackageName: schedule.groomingPackageName,

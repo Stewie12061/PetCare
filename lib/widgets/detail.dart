@@ -170,7 +170,7 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -184,7 +184,7 @@ class _DetailPageState extends State<DetailPage> {
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
                     color: Styles.highlightColor,
                     borderRadius: BorderRadius.circular(20),
@@ -192,8 +192,8 @@ class _DetailPageState extends State<DetailPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.shopping_cart_outlined, color: white),
-                      SizedBox(width: 10),
+                      const Icon(Icons.shopping_cart_outlined, color: white),
+                      const SizedBox(width: 10),
                       Text(
                         'Add to cart',
                         style: poppin.copyWith(

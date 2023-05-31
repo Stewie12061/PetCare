@@ -16,8 +16,9 @@ class ReschedulePage extends StatefulWidget {
   final int packageId;
   final String groomingPackageName;
   final double price;
+  final int id;
 
-  const ReschedulePage({super.key, required this.packageId, required this.groomingPackageName, required this.price});
+  const ReschedulePage({super.key, required this.packageId, required this.groomingPackageName, required this.price, required this.id});
 
   @override
   State<ReschedulePage> createState() => _ReschedulePageState();
@@ -25,7 +26,7 @@ class ReschedulePage extends StatefulWidget {
 
 class _ReschedulePageState extends State<ReschedulePage> {
   //declaration
-  List<bool> availableTimeSlots = [];
+  List<bool> availableTimeSlots = List.generate(8, (_) => false);
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
@@ -34,15 +35,14 @@ class _ReschedulePageState extends State<ReschedulePage> {
   bool _dateSelected = false;
   bool _timeSelected = false;
 
+  late bool isPastTime;
   @override
   void initState() {
     super.initState();
     initializeAvailableTimeSlots();
-
   }
   Future<void> initializeAvailableTimeSlots() async {
     final selectedDate = _currentDay; // Get the selected date
-
     final formattedDate = DateConverted.getDate(selectedDate);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -164,7 +164,7 @@ class _ReschedulePageState extends State<ReschedulePage> {
                         ),
                         borderRadius: BorderRadius.circular(15),
                         color: _currentIndex == index ? Config.primaryColor
-                            : null,
+                            : availableTimeSlots[index] ? Colors.white : Colors.grey,
                       ),
                       alignment: Alignment.center,
                       child: Text(
@@ -188,7 +188,7 @@ class _ReschedulePageState extends State<ReschedulePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 80),
                 child: Button(
                   width: double.infinity,
-                  title: 'Make Appointment',
+                  title: 'Change Appointment',
                   onPressed: (){
                     //convert date/day/time into string first
                     final getDate = DateConverted.getDate(_currentDay);
@@ -210,18 +210,18 @@ class _ReschedulePageState extends State<ReschedulePage> {
                             ),
                             elevation: 5,
                             child: Container(
-                              padding: EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(10.0),
                               height: 120,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("Appointment on \n$getDay, $getDate",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                                     overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
                                   ),
 
                                   Text("At $getTime",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                                     overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
                                   )
                                 ],
@@ -234,21 +234,18 @@ class _ReschedulePageState extends State<ReschedulePage> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton(
-                                    child: Text('Cancel'),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Styles.highlightColor
                                     ),
+                                    child: const Text('Cancel'),
                                   ),
                                   ElevatedButton(
-                                    child: Text('Confirm'),
                                     onPressed: () async {
-                                      final booking = await Utilities().bookAppointment(
-                                          widget.packageId,
-                                          getDate, getDay, getTime, widget.price,1);
-                                      if (booking == 200){
+                                      final reschedule = await Utilities().rescheduleAppointments(widget.id,getDate,getTime);
+                                      if (reschedule == 200){
                                         Navigator.of(context).pushNamed('success_booking');
                                       }
                                       else {
@@ -264,6 +261,7 @@ class _ReschedulePageState extends State<ReschedulePage> {
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Styles.highlightColor
                                     ),
+                                    child: const Text('Confirm'),
                                   ),
                                 ],
                               ),

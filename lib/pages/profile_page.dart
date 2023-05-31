@@ -384,6 +384,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       packageId: appointment.packageId,
                                                       price: appointment.price,
                                                       groomingPackageName: appointment.groomingPackageName,
+                                                      id: appointment.id,
                                                     )
                                                 )
                                             );
