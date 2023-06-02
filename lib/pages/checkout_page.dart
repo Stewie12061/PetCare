@@ -3,19 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:pet_care/homepage/homepage.dart';
-import 'package:pet_care/pages/order_view_page.dart';
+import 'package:pet_care/pages/payment_page.dart';
 import 'package:pet_care/utils/styles.dart';
 import 'package:provider/provider.dart';
-
 import '../const.dart';
 import '../models/order_model.dart';
 import '../provider/cart_provider.dart';
 import '../service/Utilities.dart';
-import '../widgets/processing.dart';
 
 class CheckOutPage extends StatefulWidget {
-  const CheckOutPage({super.key});
+  const CheckOutPage({Key? key}) : super(key: key);
 
   @override
   State<CheckOutPage> createState() => _CheckoutState();
@@ -27,6 +24,11 @@ class _CheckoutState extends State<CheckOutPage>{
   String paymentOptionText = 'Choose Payment Option';
   final _formKey = GlobalKey<FormState>();
 
+  final TextEditingController? addressController = TextEditingController();
+  final TextEditingController? cityController = TextEditingController();
+  final TextEditingController? countryController = TextEditingController();
+  final TextEditingController? zipCodeController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +36,7 @@ class _CheckoutState extends State<CheckOutPage>{
       fetchCartItem();
     });
   }
+
   void _showPaymentOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -122,7 +125,6 @@ class _CheckoutState extends State<CheckOutPage>{
     );
   }
 
-
   Future<void> fetchCartItem() async {
     CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
     await cartProvider.fetchCartItems();
@@ -136,12 +138,6 @@ class _CheckoutState extends State<CheckOutPage>{
   @override
   Widget build(BuildContext context){
     CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
-
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController cityController = TextEditingController();
-    final TextEditingController countryController = TextEditingController();
-    final TextEditingController zipCodeController = TextEditingController();
-
 
     return Scaffold(
       appBar: AppBar(
@@ -343,10 +339,10 @@ class _CheckoutState extends State<CheckOutPage>{
                         String formattedDate = dateFormat.format(DateTime.now());
 
                         Order order = Order(
-                          address: addressController.text,
-                          city: cityController.text,
-                          country: countryController.text,
-                          zipCode: zipCodeController.text,
+                          address: addressController?.text,
+                          city: cityController?.text,
+                          country: countryController?.text,
+                          zipCode: zipCodeController?.text,
                           orderPrice: finalPrice,
                           itemQuantity: cartProvider.carts.length,
                           isPaid: 0,
@@ -354,14 +350,12 @@ class _CheckoutState extends State<CheckOutPage>{
                           dateOrder: formattedDate,
                         );
                         if(paymentOptionText=='Pay with Card'){
-                          order.isPaid = 1;
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => PaymentPage(),
-                          //   ),
-                          // );
-                        }else{
+                          String? address = order.address;
+                          String price = finalPrice.toStringAsFixed(2);
+                          String text = cartProvider.carts.length > 1
+                              ? 'Items'
+                              : 'Item';
+                          String quantity = '${cartProvider.carts.length} $text';
                           AwesomeDialog(
                             context: context,
                             dialogType: DialogType.question,
@@ -370,7 +364,37 @@ class _CheckoutState extends State<CheckOutPage>{
                             animType: AnimType.bottomSlide,
                             title: 'Confirm Order',
                             titleTextStyle: const TextStyle(color: Colors.cyan,fontWeight: FontWeight.w600,fontSize: 20),
-                            desc: '$order',
+                            desc: 'Address: $address \n$quantity total: \$$price',
+                            descTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                            buttonsTextStyle: const TextStyle(color: Colors.black),
+                            showCloseIcon: false,
+                            btnCancelOnPress: () {},
+                            btnOkOnPress: () async {
+                              order.isPaid = 1;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PaymentPage(order: order,),
+                                ),
+                              );
+                            },
+                          ).show();
+                        }else{
+                          String? address = order.address;
+                          String price = finalPrice.toStringAsFixed(2);
+                          String text = cartProvider.carts.length > 1
+                              ? 'Items'
+                              : 'Item';
+                          String quantity = '${cartProvider.carts.length} $text';
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.question,
+                            headerAnimationLoop: true,
+                            transitionAnimationDuration: const Duration(milliseconds: 500),
+                            animType: AnimType.bottomSlide,
+                            title: 'Confirm Order',
+                            titleTextStyle: const TextStyle(color: Colors.cyan,fontWeight: FontWeight.w600,fontSize: 20),
+                            desc: 'Address: $address \n$quantity total: \$$price',
                             descTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                             buttonsTextStyle: const TextStyle(color: Colors.black),
                             showCloseIcon: false,
@@ -392,7 +416,6 @@ class _CheckoutState extends State<CheckOutPage>{
                               }
                             },
                           ).show();
-
                         }
                       }
                     }else{
@@ -444,9 +467,9 @@ class _CheckoutState extends State<CheckOutPage>{
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              _buildTextFormField(addressController, context, 'Address:'),
-              _buildTextFormField(cityController, context, 'City:'),
-              _buildTextFormField(countryController, context, 'Country:'),
+              _buildTextFormField(addressController!, context, 'Address:'),
+              _buildTextFormField(cityController!, context, 'City:'),
+              _buildTextFormField(countryController!, context, 'Country:'),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Row(
@@ -474,6 +497,9 @@ class _CheckoutState extends State<CheckOutPage>{
                         if (value!.isEmpty) {
                           return 'Please enter Zip Code';
                         }
+                        if (value.length != 5) {
+                          return 'Zip Code must be 5 digits';
+                        }
                         return null;
                       },
                     ),
@@ -491,7 +517,7 @@ class _CheckoutState extends State<CheckOutPage>{
 }
 
 Padding _buildTextFormField(
-  TextEditingController controller,
+  TextEditingController? controller,
   BuildContext context,
   String labelText,
 ){

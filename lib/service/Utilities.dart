@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:pet_care/models/category_model.dart';
 import 'package:pet_care/models/product_model.dart';
@@ -300,7 +299,7 @@ class Utilities {
         'city': order.city,
         'country': order.country,
         'zipCode': order.zipCode,
-        'orderPrice': order.orderPrice,
+        'orderPrice': order.orderPrice!.toStringAsFixed(2),
         'itemQuantity': order.itemQuantity,
         'isPaid': order.isPaid,
         'isCompleted': order.isCompleted,
@@ -316,6 +315,37 @@ class Utilities {
       return response.statusCode;
     } else {
       return 'Error';
+    }
+  }
+
+  Future<List<Order>> fetchOrders() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("jwtToken")!;
+      String userId = prefs.getString("userId")!;
+      Uri uri = Uri.parse("${url}order/users/$userId/allOrder");
+      final response = await http.get(
+        uri,
+        headers: {"Authorization": "Bearer $token"},
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        final List<Order> fetchedOrders = [];
+        for (var orderData in jsonData) {
+          final order = Order.fromJson(orderData);
+          fetchedOrders.add(order);
+        }
+        return fetchedOrders;
+      } else {
+        // Handle API error
+        print('Failed to fetch orders. Status code: ${response.statusCode}');
+        return [];
+      }
+    } catch (error) {
+      // Handle network or server error
+      print('Failed to fetch orders. Error: $error');
+      return [];
     }
   }
 

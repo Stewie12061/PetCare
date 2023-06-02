@@ -26,4 +26,19 @@ class Order {
     required this.isCompleted,
     required this.dateOrder
   });
+
+  factory Order.fromJson(Map<String, dynamic> json) {
+    return Order(
+        id: json['id'],
+        address: json['address'],
+        city: json['city'],
+        country: json['country'],
+        zipCode: json['zipCode'],
+        orderPrice: json['orderPrice'],
+        itemQuantity: json['itemQuantity'],
+        isPaid: json['isPaid'],
+        isCompleted: json['isCompleted'],
+        dateOrder: json['dateOrder']
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:pet_care/homepage/homepage.dart';
 import 'package:pet_care/pages/booking_success_page.dart';
 import 'package:pet_care/pages/get_started.dart';
@@ -12,6 +13,8 @@ import 'package:pet_care/widgets/processing.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = "pk_test_51M7XO7LGB4KyGyVdlhB1cExKrVuSHxsxA4io48OqzVPHmAxxM2Vyb5ccjIJ6nxQAJUKzpxlzfIq69s4Zhka1PtvU005EWmzHHi";
   runApp(
     MultiProvider(
       providers: [
@@ -21,7 +24,7 @@ void main() {
       child: const MyApp(),
     ),
   );
-}
+  }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

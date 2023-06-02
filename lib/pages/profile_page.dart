@@ -1,13 +1,18 @@
 import 'dart:convert';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:pet_care/pages/booking_page.dart';
 import 'package:pet_care/pages/reschedule_page.dart';
+import 'package:pet_care/utils/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/apointment.dart';
+import '../models/order_model.dart';
 import '../service/Utilities.dart';
 import '../utils/Config.dart';
+import 'map_page.dart';
+import 'order_view_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -20,13 +25,18 @@ class _ProfilePageState extends State<ProfilePage> {
   String name = '';
   String email = '';
   List<Appointment> appointments = [];
+  List<Order> orders = [];
   final Utilities utilities = Utilities();
+  String totalOrder='';
+  String totalSpend='';
+  double money=0.0;
 
   @override
   void initState() {
     super.initState();
     loadDataFromSharedPreferences();
     fetchAppointments();
+    fetchOrders();
   }
 
   Future<void> loadDataFromSharedPreferences() async {
@@ -41,6 +51,20 @@ class _ProfilePageState extends State<ProfilePage> {
     final fetchedAppointments = await utilities.fetchClosestAppointments();
     setState(() {
       appointments = fetchedAppointments;
+    });
+  }
+
+  Future<void> fetchOrders() async {
+    final fetchedOrders = await utilities.fetchOrders();
+    setState(() {
+      orders = fetchedOrders;
+      totalOrder = orders.length.toString();
+      for(var data in orders){
+        if(data.isPaid==1){
+          money += data.orderPrice!;
+        }
+      }
+      totalSpend = money.toString();
     });
   }
 
@@ -121,88 +145,105 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Column(
-                            children: [
-                              Text(
-                                "\$8900",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                      Card(
+                        color: Styles.highlightColor,
+                        elevation: 3,
+                        margin: const EdgeInsets.only(
+                          top: 20,
+                          left: 20,
+                          right: 20,
+                          bottom: 5,
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                        ),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const OrderViewPage()),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 30,bottom: 30),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      '\$$totalSpend',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    const Text(
+                                      "Total spend",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w200,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                "Total spend",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.black,
+                                Container(
+                                  width: 1,
+                                  height: 40,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ],
+                                Column(
+                                  children: [
+                                    Text(
+                                      totalOrder,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    const Text(
+                                      "Total order",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w200,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          Container(
-                            width: 0.5,
-                            height: 40,
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                          const Column(
-                            children: [
-                              Text(
-                                "20",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                "Total order",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                        ),
                       ),
                       const Gap(20),
                       ElevatedButton(
                         onPressed: () {
-                          showDialog(
+                          AwesomeDialog(
                             context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Sign Out'),
-                                content: Text('Are you sure you want to sign out?'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text('Cancel'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text('Sign Out'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.pushReplacementNamed(context, '/signin');
-                                    },
-                                  ),
-                                ],
-                              );
+                            dialogType: DialogType.warning,
+                            headerAnimationLoop: true,
+                            transitionAnimationDuration: const Duration(milliseconds: 500),
+                            animType: AnimType.bottomSlide,
+                            title: 'Sign Out',
+                            titleTextStyle: const TextStyle(color: Colors.cyan,fontWeight: FontWeight.w600,fontSize: 20),
+                            desc: 'Are you sure you want to sign out?',
+                            descTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                            buttonsTextStyle: const TextStyle(color: Colors.black),
+                            showCloseIcon: false,
+                            btnCancelOnPress: () {},
+                            btnOkOnPress: () async {
+                              Navigator.pushReplacementNamed(context, '/signin');
                             },
-                          );
+                          ).show();
                         },
-                        child: Text('Sign Out'),
+                        child: const Text('Sign Out'),
                       ),
                     ],
                   ),
@@ -256,6 +297,34 @@ class _ProfilePageState extends State<ProfilePage> {
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              const Text(
+                                                'Address: ',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  Navigator.push(
+                                                      context, MaterialPageRoute(builder: (_) => const MapPage()));
+                                                },
+                                                child: const Text(
+                                                  'Open map',
+                                                  style: TextStyle(
+                                                    color: Colors.cyan,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
                                           Text(
                                             appointment.groomingPackageName,
                                             style: const TextStyle(
@@ -266,9 +335,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text(
-                                            '${appointment.price}',
-                                            style: const TextStyle(
+                                          const Text(
+                                            '828 Sư Vạn Hạnh, Phường 12, Quận 10, TP HCM',
+                                            style: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w600,
@@ -336,30 +405,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                       Expanded(
                                         child: OutlinedButton(
                                           onPressed: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text('Cancel Appointment'),
-                                                content: Text('Are you sure you want to cancel this appointment?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    child: Text('No'),
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  ),
-                                                  TextButton(
-                                                    child: Text('Yes'),
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                      cancelAppointment(appointment.id);
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                              }
-                                            );
+                                            AwesomeDialog(
+                                              context: context,
+                                              dialogType: DialogType.warning,
+                                              headerAnimationLoop: true,
+                                              transitionAnimationDuration: const Duration(milliseconds: 500),
+                                              animType: AnimType.bottomSlide,
+                                              title: 'Cancel Appointment',
+                                              titleTextStyle: const TextStyle(color: Colors.cyan,fontWeight: FontWeight.w600,fontSize: 20),
+                                              desc: 'Are you sure you want to cancel this appointment?',
+                                              descTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                                              buttonsTextStyle: const TextStyle(color: Colors.black),
+                                              showCloseIcon: false,
+                                              btnCancelOnPress: () {},
+                                              btnOkOnPress: () async {
+                                                Navigator.of(context).pop();
+                                                cancelAppointment(appointment.id);
+                                              },
+                                            ).show();
                                           },
                                           child: const Text(
                                             'Cancel',

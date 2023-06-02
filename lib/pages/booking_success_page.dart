@@ -56,7 +56,7 @@ class _AppointmentBookedState extends State<AppointmentBooked> {
                 child: Button(
                   width: double.infinity,
                   title: 'Back to Home Page',
-                  onPressed: () => Navigator.of(context).pushNamed('home'),
+                  onPressed: () => Navigator.of(context).pushReplacementNamed('home'),
                   disable: false,
                 ),
               )

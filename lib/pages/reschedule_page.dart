@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pet_care/service/Utilities.dart';
@@ -195,81 +196,35 @@ class _ReschedulePageState extends State<ReschedulePage> {
                     final getDay = DateConverted.getDay(_currentDay.weekday);
                     final getTime = DateConverted.getTime(_currentIndex!);
 
-                    showDialog(
+                    AwesomeDialog(
                       context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Center(
-                              child: Text(
-                                'Confirm Appointment',
-                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                              )),
-                          content: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            elevation: 5,
-                            child: Container(
-                              padding: const EdgeInsets.all(10.0),
-                              height: 120,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Appointment on \n$getDay, $getDate",
-                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                                    overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
-                                  ),
-
-                                  Text("At $getTime",
-                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                                    overflow: TextOverflow.visible, // Change to 'ellipsis' if desired
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          actions: <Widget>[
-                            Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Styles.highlightColor
-                                    ),
-                                    child: const Text('Cancel'),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      final reschedule = await Utilities().rescheduleAppointments(widget.id,getDate,getTime);
-                                      if (reschedule == 200){
-                                        Navigator.of(context).pushNamed('success_booking');
-                                      }
-                                      else {
-                                        Fluttertoast.showToast(
-                                          msg: 'Something when wrong \nPlease try again later',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.CENTER,
-                                          backgroundColor: Styles.highlightColor,
-                                          textColor: Colors.white,
-                                        );
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Styles.highlightColor
-                                    ),
-                                    child: const Text('Confirm'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
+                      dialogType: DialogType.warning,
+                      headerAnimationLoop: true,
+                      transitionAnimationDuration: const Duration(milliseconds: 500),
+                      animType: AnimType.bottomSlide,
+                      title: 'Confirm Reschedule Appointment',
+                      titleTextStyle: const TextStyle(color: Colors.cyan,fontWeight: FontWeight.w600,fontSize: 20),
+                      desc: '$getDay, $getDate \nAt $getTime',
+                      descTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                      buttonsTextStyle: const TextStyle(color: Colors.black),
+                      showCloseIcon: false,
+                      btnCancelOnPress: () {},
+                      btnOkOnPress: () async {
+                        final reschedule = await Utilities().rescheduleAppointments(widget.id,getDate,getTime);
+                        if (reschedule == 200){
+                          Navigator.of(context).pushNamed('success_booking');
+                        }
+                        else {
+                          Fluttertoast.showToast(
+                            msg: 'Something when wrong \nPlease try again later',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: Styles.highlightColor,
+                            textColor: Colors.white,
+                          );
+                        }
                       },
-                    );
+                    ).show();
                   },
                   disable: _timeSelected && _dateSelected ? false : true,
                 ),

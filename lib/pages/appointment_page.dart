@@ -234,7 +234,17 @@ class _AppointmentPageState extends State<AppointmentPage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 15,
+                            height: 5,
+                          ),
+                          Text(
+                            schedule.groomingPackageName,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
                           ),
                           ScheduleCard(
                             date: schedule.date,
