@@ -9,7 +9,7 @@ import '../models/order_model.dart';
 import '../provider/cart_provider.dart';
 import '../service/Utilities.dart';
 
-class PaymentPage extends StatefulWidget{
+class PaymentPage extends StatefulWidget {
   final Order order;
 
   const PaymentPage({super.key, required this.order});
@@ -22,18 +22,23 @@ class _PaymentPageState extends State<PaymentPage> {
   Map<String, dynamic>? paymentIntent;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 3), () async {
+        await makePayment();
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Stripe Payment'),
       ),
       body: Center(
-        child: TextButton(
-          child: const Text('Make Payment'),
-          onPressed: ()async{
-            await makePayment();
-          },
-        ),
+        child: CircularProgressIndicator(), // Add a loading indicator while waiting
       ),
     );
   }
@@ -42,18 +47,18 @@ class _PaymentPageState extends State<PaymentPage> {
     try {
       String value = widget.order.orderPrice.toString();
       paymentIntent = await createPaymentIntent(value, 'USD');
-      //Payment Sheet
+      // Payment Sheet
       await Stripe.instance.initPaymentSheet(
-          paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret: paymentIntent!['client_secret'],
-              // applePay: const PaymentSheetApplePay(merchantCountryCode: '+92',),
-              // googlePay: const PaymentSheetGooglePay(testEnv: true, currencyCode: "US", merchantCountryCode: "+92"),
-              style: ThemeMode.dark,
-              merchantDisplayName: 'Stewie')).then((value){
-      });
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntent!['client_secret'],
+          // applePay: const PaymentSheetApplePay(merchantCountryCode: '+92',),
+          // googlePay: const PaymentSheetGooglePay(testEnv: true, currencyCode: "US", merchantCountryCode: "+92"),
+          style: ThemeMode.dark,
+          merchantDisplayName: 'Stewie',
+        ),
+      ).then((value) {});
 
-
-      ///now finally display payment sheeet
+      /// now finally display payment sheet
       displayPaymentSheet();
     } catch (e, s) {
       print('exception:$e$s');
@@ -61,29 +66,32 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   displayPaymentSheet() async {
-    CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+    CartProvider cartProvider =
+    Provider.of<CartProvider>(context, listen: false);
 
     try {
-      await Stripe.instance.presentPaymentSheet(
-      ).then((value) async {
+      await Stripe.instance.presentPaymentSheet().then((value) async {
         showDialog(
-            context: context,
-            builder: (_) => const AlertDialog(
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle, color: Colors.green,),
-                      Text("Payment Successfull"),
-                    ],
-                  ),
-                ],
-              ),
-            ));
-        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("paid successfully")));
-        final orderReposone = await Utilities().makeOrder(widget.order);
-        if(orderReposone == 200){
+          context: context,
+          builder: (_) => const AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                    Text("Payment Successful"),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+        final orderResponse = await Utilities().makeOrder(widget.order);
+        if (orderResponse == 200) {
           // Remove all items from cart
           await cartProvider.removeAllItemsCart();
 
@@ -91,26 +99,25 @@ class _PaymentPageState extends State<PaymentPage> {
           await Future.delayed(const Duration(seconds: 3));
           Navigator.of(context).pushNamed('success_order');
         }
-
-      }).onError((error, stackTrace){
+      }).onError((error, stackTrace) {
         print('Error is:--->$error $stackTrace');
       });
-
-
     } on StripeException catch (e) {
       print('Error is:---> $e');
       showDialog(
-          context: context,
-          builder: (_) => const AlertDialog(
-            content: Text("Cancelled "),
-          ));
+        context: context,
+        builder: (_) => const AlertDialog(
+          content: Text("Cancelled "),
+        ),
+      );
     } catch (e) {
       print('$e');
     }
   }
 
-  //  Future<Map<String, dynamic>>
-  createPaymentIntent(String amount, String currency) async {
+  // Future<Map<String, dynamic>>
+  createPaymentIntent(
+      String amount, String currency) async {
     try {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
@@ -118,7 +125,8 @@ class _PaymentPageState extends State<PaymentPage> {
         'payment_method_types[]': 'card'
       };
 
-      String SECRET_KEY = "sk_test_51M7XO7LGB4KyGyVd6spNIn8OwCXl254ORKPtFn8Nkv33ePcb1z3Pb2EjJEAaRzFdEz6x319AXbGy1QtHVFwd128T00vLIQjGPw";
+      String SECRET_KEY =
+          "sk_test_51M7XO7LGB4KyGyVd6spNIn8OwCXl254ORKPtFn8Nkv33ePcb1z3Pb2EjJEAaRzFdEz6x319AXbGy1QtHVFwd128T00vLIQjGPw";
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
@@ -136,9 +144,8 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  calculateAmount(String amount) {
-    final calculatedAmout = ((double.parse(amount)) * 100).toInt() ;
-    return calculatedAmout.toString();
+  String calculateAmount(String amount) {
+    final calculatedAmount = ((double.parse(amount)) * 100).toInt();
+    return calculatedAmount.toString();
   }
-  
 }

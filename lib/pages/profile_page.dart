@@ -11,6 +11,7 @@ import '../models/apointment.dart';
 import '../models/order_model.dart';
 import '../service/Utilities.dart';
 import '../utils/Config.dart';
+import '../widgets/dropdownbtn.dart';
 import 'map_page.dart';
 import 'order_view_page.dart';
 
@@ -97,12 +98,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: const EdgeInsets.only(top: 20, bottom: 25, right: 20, left: 20),
                   child: Column(
                     children: [
-                      const Row(
+                       const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Icon(Icons.bar_chart),
-                          Icon(Icons.more_vert),
-                        ],
+                          SizedBox(
+                            height: 50,
+                              width: 50,
+                              child: CustomButtonTest()
+                          )
+
+                  ],
                       ),
                       const SizedBox(height: 15),
                       Column(
@@ -222,29 +228,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-                      const Gap(20),
-                      ElevatedButton(
-                        onPressed: () {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.warning,
-                            headerAnimationLoop: true,
-                            transitionAnimationDuration: const Duration(milliseconds: 500),
-                            animType: AnimType.bottomSlide,
-                            title: 'Sign Out',
-                            titleTextStyle: const TextStyle(color: Colors.cyan,fontWeight: FontWeight.w600,fontSize: 20),
-                            desc: 'Are you sure you want to sign out?',
-                            descTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                            buttonsTextStyle: const TextStyle(color: Colors.black),
-                            showCloseIcon: false,
-                            btnCancelOnPress: () {},
-                            btnOkOnPress: () async {
-                              Navigator.pushReplacementNamed(context, '/signin');
-                            },
-                          ).show();
-                        },
-                        child: const Text('Sign Out'),
-                      ),
+                      const Gap(5),
                     ],
                   ),
                 ),

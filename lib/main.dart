@@ -6,6 +6,7 @@ import 'package:pet_care/pages/get_started.dart';
 import 'package:pet_care/pages/order_view_page.dart';
 import 'package:pet_care/pages/profile_page.dart';
 import 'package:pet_care/pages/register_pages/login.dart';
+import 'package:pet_care/pages/update_info_page.dart';
 import 'package:pet_care/provider/cart_provider.dart';
 import 'package:pet_care/provider/favorite_provider.dart';
 import 'package:pet_care/utils/styles.dart';
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
         'success_booking': (context) => const AppointmentBooked(),
         'success_order': (context) => const ProcessingScreen(),
         'order_view': (context) => const OrderViewPage(),
-        'profile': (context) => const ProfilePage()
+        'profile': (context) => const ProfilePage(),
+        'modify': (context) => const UpdateInfo()
       },
       home: const GetStarted(),
     );

@@ -58,11 +58,23 @@ class _CartState extends State<CartPage> {
             ),
             centerTitle: true,
           ),
-          body: Column(
+          body:
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              Row(
+              if(cartProvider.carts.isEmpty)
+                Center(
+                  child: Text(
+                      'Nothing in here, add some for your pet',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                    ),
+                  )
+                ),
+              if(cartProvider.carts.isNotEmpty)
+                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
