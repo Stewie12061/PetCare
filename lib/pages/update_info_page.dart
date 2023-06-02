@@ -21,8 +21,29 @@ class _UpdateInfoState extends State<UpdateInfo> {
   final emailController = TextEditingController();
   final fullnameController = TextEditingController();
   final phonenumerController = TextEditingController();
-
+  String name = '';
+  String email = '';
+  String phonenumber = '';
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    loadDataFromSharedPreferences();
+  }
+
+  Future<void> loadDataFromSharedPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('fullname') ?? '';
+      email = prefs.getString('email') ?? '';
+      phonenumber = prefs.getString('phonenumber') ?? '';
+
+      emailController.text=email;
+      fullnameController.text=name;
+      phonenumerController.text=phonenumber;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
